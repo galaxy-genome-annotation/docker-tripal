@@ -1,5 +1,7 @@
 # Tripal Docker Image
 
+![Tripal Logo](http://tripal.info/sites/default/files/TripalLogo_dark.png)
+
 This image contains a ready-to-go installation of Tripal v2.0.
 
 ## Using the Container

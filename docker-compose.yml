@@ -12,10 +12,8 @@ web:
   environment:
     UPLOAD_LIMIT: 20M
     MEMORY_LIMIT: 128M
-    VIRTUAL_HOST: foo.bar.zap
-    BASE_URL: "http://gx.hx42.org:3000"
+    BASE_URL: "http://localhost:3000"
     BASE_URL_PROTO: "http://"
-    DB_NAME: postgres
   ports:
     - "3000:80"
 

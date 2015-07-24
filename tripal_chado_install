@@ -1,7 +1,7 @@
 export PGPASSWORD=$DB_PASS
 wget https://cpt.tamu.edu/jenkins/job/Chado-Prebuilt-Schemas/22/artifact/compile-chado-schema/chado/default/chado-master-tripal.sql.gz -O chado-master-tripal.sql.gz
 gunzip chado-master-tripal.sql.gz
-psql -U $DB_USER -h $DB_HOST -p $DB_PORT < chado-master-tripal.sql
+psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME < chado-master-tripal.sql
 
 
 drush pm-download ctools views tripal

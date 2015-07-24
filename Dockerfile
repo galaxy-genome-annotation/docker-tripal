@@ -1,4 +1,4 @@
-FROM drupal_web
+FROM samos123/drupal:latest
 
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install wget patch

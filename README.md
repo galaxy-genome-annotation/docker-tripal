@@ -29,22 +29,15 @@ tripal:
     - "3000:80"
 
 db:
-  image: postgres:9.4
+  image: erasche/chado:latest
   environment:
     - POSTGRES_PASSWORD=password
+      # The default chado image would try to install the schema on first run,
+      # we just want the GMOD tools to be available.
+    - INSTALL_CHADO_SCHEMA=0
   volumes:
-    - /var/lib/postgresql/data
+    - /var/lib/postgresql/9.4/
 ```
-
-## Notes
-
-It should be linked to a postgres container, instead of my chado
-container. This is for a couple of reasons, namely my container won't
-behave properly if you mount a volume and that's bad. Additionally, chado
-is installed into the public schema in those containers (I mean, that
-makes sense, right?), however Tripal expects Chado in a `chado` schema. My
-[chado schema builder](https://github.com/erasche/docker-recipes/blob/master/compile-chado-schema/chado/default/build.yml#L56)
-now accounts for that and generates multiple images.
 
 ## Contributing
 

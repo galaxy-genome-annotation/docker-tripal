@@ -2,8 +2,7 @@
 # For customization options see: https://docs.docker.com/compose/yml/
 
 web:
-  build: .
-  #image: samos123/drupal:latest
+  image: samos123/drupal:latest
   links:
     - db:postgres
   volumes:

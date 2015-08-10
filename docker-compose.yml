@@ -18,8 +18,11 @@ web:
     - "3000:80"
 
 db:
-  image: postgres:9.4
+  image: erasche/chado:latest
   environment:
     - POSTGRES_PASSWORD=password
+      # The default chado image would try to install the schema on first run,
+      # we just want the tools to be available.
+    - INSTALL_CHADO_SCHEMA=0
   volumes:
-    - /var/lib/postgresql/data
+    - /var/lib/postgresql/9.4/

@@ -1,5 +1,7 @@
 # Tripal Docker Image
 
+[![DOI](https://zenodo.org/badge/10899/erasche/docker-tripal.svg)](https://zenodo.org/badge/latestdoi/10899/erasche/docker-tripal)
+
 ![Tripal Logo](http://tripal.info/sites/default/files/TripalLogo_dark.png)
 
 This image contains a ready-to-go installation of Tripal v2.0.

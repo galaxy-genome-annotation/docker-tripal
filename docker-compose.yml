@@ -2,8 +2,8 @@
 # For customization options see: https://docs.docker.com/compose/yml/
 
 web:
-  build: .
-  #image: erasche/tripal:latest
+  #build: .
+  image: erasche/tripal:latest
   links:
     - db:postgres
   volumes:

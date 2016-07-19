@@ -1,7 +1,6 @@
 FROM samos123/drupal:latest
 
-RUN a2enmod proxy
-RUN a2enmod proxy_http
+RUN a2enmod proxy && a2enmod proxy_http
 
 #TODO: gpg verify
 RUN apt-get -q update && \

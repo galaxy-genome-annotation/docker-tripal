@@ -42,6 +42,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
  && drush cc drush \
  && mkdir /etc/drush && echo "<?php\n\$options['yes'] = TRUE;\n\$options['v'] = TRUE;\n" > /etc/drush/drushrc.php
 
+RUN wget https://cpt.tamu.edu/jenkins/job/Chado-Prebuilt-Schemas/19/artifact/compile-chado-schema/chado/default/chado-master-tripal.sql.gz -O /chado-master-tripal.sql.gz
+
 # Add PHP-settings
 ADD php-conf.d/ $PHP_INI_DIR/conf.d/
 
@@ -52,8 +54,6 @@ ADD sites/ sites/
 # Add README.md, entrypoint-script and scripts-folder
 ADD entrypoint.sh README.md  /
 ADD /scripts/ /scripts/
-
-RUN wget https://cpt.tamu.edu/jenkins/job/Chado-Prebuilt-Schemas/19/artifact/compile-chado-schema/chado/default/chado-master-tripal.sql.gz -O /chado-master-tripal.sql.gz
 
 ADD tripal_chado_install /scripts/setup.d/50tripal_chado_install
 ADD tripal_apache.conf /etc/apache2/conf-enabled/tripal_apache.conf

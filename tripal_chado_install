@@ -1,6 +1,7 @@
 export PGPASSWORD=$DB_PASS
 gunzip /chado-master-tripal.sql.gz
 psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME < /chado-master-tripal.sql
+echo "ALTER ROLE $DB_USER  SET search_path TO \"$user\",public,chado;" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME;
 
 
 drush pm-download ctools views tripal

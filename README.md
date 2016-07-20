@@ -11,34 +11,34 @@ This image contains a ready-to-go installation of Tripal v2.0.
 I highly recommend using a `docker-compose.yml` to run your containers.
 
 ```yaml
-tripal:
-  image: erasche/tripal:latest
-  links:
-    - db:postgres
-  volumes:
-    - /var/www/html/sites
-    - /var/www/private
-  environment:
-    UPLOAD_LIMIT: 20M
-    MEMORY_LIMIT: 128M
-    VIRTUAL_HOST: foo.bar.edu
-    # If you run the image on a different port, then BASE_URL must be set
-    # correctly. If you run on :80 it should be OK to remove BASE_URL
-    BASE_URL: "http://foo.bar.edu:3000"
-    BASE_URL_PROTO: "http://"
-    DB_NAME: postgres
-  ports:
-    - "3000:80"
-
-db:
-  image: erasche/chado:latest
-  environment:
-    - POSTGRES_PASSWORD=password
-      # The default chado image would try to install the schema on first run,
-      # we just want the GMOD tools to be available.
-    - INSTALL_CHADO_SCHEMA=0
-  volumes:
-    - /var/lib/postgresql/9.4/
+version: "2"
+services:
+  tripal:
+    image: erasche/tripal:latest
+    links:
+      - db:postgres
+    volumes:
+      - /var/www/html/sites
+      - /var/www/private
+    environment:
+      UPLOAD_LIMIT: 20M
+      MEMORY_LIMIT: 128M
+      VIRTUAL_HOST: foo.bar.edu
+      # If you run the image on a different port, then BASE_URL must be set
+      # correctly. If you run on :80 it should be OK to remove BASE_URL
+      BASE_URL: "http://foo.bar.edu:3000"
+      BASE_URL_PROTO: "http://"
+    ports:
+      - "3000:80"
+  db:
+    image: erasche/chado:latest
+    environment:
+      - POSTGRES_PASSWORD=password
+        # The default chado image would try to install the schema on first run,
+        # we just want the GMOD tools to be available.
+      - INSTALL_CHADO_SCHEMA=0
+    volumes:
+      - /var/lib/postgresql/9.4/
 ```
 
 ## Contributing

@@ -2,6 +2,7 @@ export PGPASSWORD=$DB_PASS
 gunzip /chado-master-tripal.sql.gz
 psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME < /chado-master-tripal.sql
 echo "alter database postgres set search_path = '$user',public,chado;" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME;
+echo "CREATE INDEX bingroup_boxrange ON featuregroup USING gist (chado.boxrange(fmin, fmax)) WHERE (is_root = 1);" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME;
 
 
 

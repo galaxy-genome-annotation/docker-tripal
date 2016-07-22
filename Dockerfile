@@ -57,3 +57,6 @@ ADD /scripts/ /scripts/
 
 ADD tripal_chado_install /scripts/setup.d/50tripal_chado_install
 ADD tripal_apache.conf /etc/apache2/conf-enabled/tripal_apache.conf
+
+ENV TRIPAL_CORE_MODULES="tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature"
+ENV TRIPAL_ADDITIONAL_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock"

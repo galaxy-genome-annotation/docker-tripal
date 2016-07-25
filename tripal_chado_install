@@ -14,8 +14,7 @@ cd /var/www/html/sites/all/modules/views
 patch -p1 < ../tripal/tripal_views/views-sql-compliant-three-tier-naming-1971160-22.patch
 
 drush pm-enable tripal_core
-drush pm-enable ${TRIPAL_CORE_MODULES}
-drush pm-enable ${TRIPAL_ADDITIONAL_MODULES}
+drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature ${TRIPAL_ADDITIONAL_MODULES}
 chgrp -R www-data /var/www/html/sites/default/files
 chmod -R g+rw /var/www/html/sites/default/files
 

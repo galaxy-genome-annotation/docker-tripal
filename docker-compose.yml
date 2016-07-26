@@ -1,28 +1,30 @@
-# This is a sample configuration to run a Drupal-instance with Docker-Compose.
-# For customization options see: https://docs.docker.com/compose/yml/
+# This is a sample configuration to run a Tripal instance with Docker-Compose.
 
-web:
-  #build: .
-  image: erasche/tripal:latest
-  links:
-    - db:postgres
-  volumes:
-    - /var/www/html/sites
-    - /var/www/private
-  environment:
-    UPLOAD_LIMIT: 20M
-    MEMORY_LIMIT: 128M
-    BASE_URL: "http://localhost:3000/tripal"
-    BASE_URL_PROTO: "http://"
-  ports:
-    - "3000:80"
+version: '2'
+services:
 
-db:
-  image: erasche/chado:latest
-  environment:
-    - POSTGRES_PASSWORD=password
-      # The default chado image would try to install the schema on first run,
-      # we just want the tools to be available.
-    - INSTALL_CHADO_SCHEMA=0
-  volumes:
-    - /var/lib/postgresql/9.4/
+    web:
+      #build: .
+      image: erasche/tripal:latest
+      links:
+        - db:postgres
+      volumes:
+        - /var/www/html/sites
+        - /var/www/private
+      environment:
+        UPLOAD_LIMIT: 20M
+        MEMORY_LIMIT: 128M
+        BASE_URL: "http://localhost:3000/tripal"
+        BASE_URL_PROTO: "http://"
+      ports:
+        - "3000:80"
+
+    db:
+      image: erasche/chado:latest
+      environment:
+        - POSTGRES_PASSWORD=postgres
+          # The default chado image would try to install the schema on first run,
+          # we just want the tools to be available.
+        - INSTALL_CHADO_SCHEMA=0
+      volumes:
+        - /var/lib/postgresql/9.4/

@@ -33,7 +33,7 @@ services:
   db:
     image: erasche/chado:latest
     environment:
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,
         # we just want the GMOD tools to be available.
       - INSTALL_CHADO_SCHEMA=0

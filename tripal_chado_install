@@ -16,7 +16,7 @@ drush pm-enable tripal_core
 if [ ! -z "$TRIPAL_DOWNLOAD_MODULES" ]; then
     drush pm-download ${TRIPAL_DOWNLOAD_MODULES}
 fi
-drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature ${TRIPAL_ADDITIONAL_MODULES}
+drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature ${TRIPAL_ENABLE_MODULES}
 chgrp -R www-data /var/www/html/sites/default/files
 chmod -R g+rw /var/www/html/sites/default/files
 

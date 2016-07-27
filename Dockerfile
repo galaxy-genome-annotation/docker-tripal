@@ -12,7 +12,7 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
     file libfreetype6 libjpeg62 libpng12-0 libpq-dev libx11-6 libxpm4 \
-    postgresql-client wget patch && \
+    postgresql-client wget patch cron git && \
     BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libxpm-dev re2c zlib1g-dev"; \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
@@ -20,8 +20,11 @@ RUN apt-get -q update && \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
- && rm -rf /var/lib/apt/lists/* \
- && pecl install uploadprogress
+ && rm -rf /var/lib/apt/lists/*
+# && pecl install uploadprogress # not yet compatible with php7 on PECL
+
+# Compile a php7 compatible version of uploadprogress module
+RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
 ENV DRUPAL_VERSION=7.50

@@ -29,7 +29,7 @@ drush role-add-perm 'authenticated user' 'access chado_feature content'
 drush role-add-perm 'authenticated user' 'access chado_organism content'
 
 # Launch jobs automatically created
-drush trp-run-jobs --user=admin
+drush trp-run-jobs --username=admin
 
 # And launch them regularly
-echo "*/5 * * * * (cd /var/www/html; drush trp-run-jobs --user=admin ) > /dev/null" > tripal_cron && crontab tripal_cron && rm tripal_cron
+echo "*/5 * * * * (cd /var/www/html; drush trp-run-jobs --username=admin ) > /dev/null" > tripal_cron && crontab tripal_cron && rm tripal_cron

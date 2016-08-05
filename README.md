@@ -60,6 +60,11 @@ ENV TRIPAL_DOWNLOAD_MODULES tripal_analysis_blast-7.x-2.x-dev
 ENV TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast"
 ```
 
+If you need to install a module that is not hosted on http://www.drupal.org, you can fill the `TRIPAL_GIT_CLONE_MODULES` environment variable with a list of git repositories that will be cloned in the module directory.
+
+```
+ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_analysis_expression.git"
+```
 
 ## Contributing
 

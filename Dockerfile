@@ -1,7 +1,17 @@
 FROM php:apache
 MAINTAINER Eric Rasche <esr@tamu.edu>
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENV TINI_VERSION v0.9.0
+RUN set -x \
+    && curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o /usr/local/bin/tini \
+    && curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o /usr/local/bin/tini.asc \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
+    && gpg --batch --verify /usr/local/bin/tini.asc /usr/local/bin/tini \
+    && rm -r "$GNUPGHOME" /usr/local/bin/tini.asc \
+    && chmod +x /usr/local/bin/tini
+
+ENTRYPOINT ["/usr/local/bin/tini", "--"]
 
 # Provide compatibility for images depending on previous versions
 RUN ln -s /var/www/html /app
@@ -64,3 +74,5 @@ ADD tripal_apache.conf /etc/apache2/conf-enabled/tripal_apache.conf
 ENV TRIPAL_GIT_CLONE_MODULES=""
 ENV TRIPAL_DOWNLOAD_MODULES=""
 ENV TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock"
+
+CMD ["/entrypoint.sh"]

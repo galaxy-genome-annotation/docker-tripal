@@ -14,7 +14,30 @@ $databases['default']['default'] = array(
 );
 
 if (getenv('BASE_URL'))
-  $base_url = getenv('BASE_URL');
+    // Use BASE_URL if defined by user
+    $base_url = getenv('BASE_URL');
+else {
+    // Guess protocol
+    if (getenv('BASE_URL_PROTO'))
+        $protocol = getenv('BASE_URL_PROTO');
+    else if (array_key_exists("REQUEST_SCHEME", $_SERVER))
+        $protocol = $_SERVER['REQUEST_SCHEME'];
+    else
+        $protocol = 'https';
+
+    // Guess host
+    if (getenv('VIRTUAL_HOST'))
+        // Use VIRTUAL_HOST if defined by user
+        $host = getenv('VIRTUAL_HOST');
+    else if (array_key_exists("HTTP_X_FORWARDED_HOST", $_SERVER))
+        // Else trust the proxy
+        $host = explode(', ', $_SERVER['HTTP_X_FORWARDED_HOST'])[0];
+    else
+        $host = NULL; // Unable to guess host part, let drupal decide what to do
+
+    if ($host)
+        $base_url = $protocol . "://" . $host . '/tripal';
+}
 
 $update_free_access = FALSE;
 

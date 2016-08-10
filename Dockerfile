@@ -68,7 +68,6 @@ ADD sites/ sites/
 ADD entrypoint.sh README.md  /
 ADD /scripts/ /scripts/
 
-ADD tripal_chado_install /scripts/setup.d/50tripal_chado_install
 ADD tripal_apache.conf /etc/apache2/conf-enabled/tripal_apache.conf
 
 ENV TRIPAL_GIT_CLONE_MODULES=""

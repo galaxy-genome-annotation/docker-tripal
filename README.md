@@ -23,11 +23,9 @@ services:
     environment:
       UPLOAD_LIMIT: 20M
       MEMORY_LIMIT: 128M
-      VIRTUAL_HOST: foo.bar.edu
-      # If you run the image on a different port, then BASE_URL must be set
-      # correctly. If you run on :80 it should be OK to remove BASE_URL
-      BASE_URL: "http://foo.bar.edu:3000"
-      BASE_URL_PROTO: "http://"
+      TRIPAL_DOWNLOAD_MODULES: "tripal_analysis_blast-7.x-2.x-dev"
+      TRIPAL_GIT_CLONE_MODULES: "https://github.com/tripal/tripal_analysis_expression.git"
+      TRIPAL_ADDITIONAL_MODULES: "tripal_analysis_blast tripal_analysis_expression tripal_analysis_intepro"
     ports:
       - "3000:80"
   db:
@@ -43,7 +41,16 @@ services:
 
 ## Configuring the Container
 
-You will need to set a `BASE_URL` unfortunately, if drupal/tripal use this in finding the location of the CSS and other static files. The container will come up correctly and you will be able to access the page, but it will not be styled without this set correctly.
+By default, tripal should display properly by going to http://foo.bar.edu:3000/tripal.
+If the page is not styled correctly, we exposed some environment variables that you can customize:
+
+```
+# In most situations, the following variables don't need to be set
+# as they are autodetected. If needed, setting these variables will disable autodetection
+VIRTUAL_HOST: foo.bar.edu # Guessed from HTTP_X_FORWARDED_HOST if behind a proxy, or from hostname
+BASE_URL_PROTO: "http" # Guessed from apache REQUEST_SCHEME variable
+BASE_URL: "http://foo.bar.edu:3000/tripal" # Guessed from VIRTUAL_HOST and BASE_URL_PROTO
+```
 
 ### Customizing the Image
 

@@ -6,6 +6,7 @@ echo "CREATE INDEX bingroup_boxrange ON featuregroup USING gist (chado.boxrange(
 
 drush pm-download ctools views tripal #-7.x-2.1-beta3 # tripal 2.1 will require chado 1.31
 drush pm-enable ctools views views_ui libraries services
+drush pm-enable rest_server
 
 wget --no-check-certificate https://drupal.org/files/drupal.pgsql-bytea.27.patch && patch -p1 < drupal.pgsql-bytea.27.patch
 
@@ -41,4 +42,5 @@ drush role-add-perm 'authenticated user' 'access chado_organism content'
 drush trp-run-jobs --username=admin
 
 # And launch them regularly
-echo "*/5 * * * * (cd /var/www/html; drush trp-run-jobs --username=admin ) > /dev/null" > tripal_cron && crontab tripal_cron && rm tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush trp-run-jobs --username=admin') > /dev/null" > tripal_cron && crontab tripal_cron && rm tripal_cron
+service cron start

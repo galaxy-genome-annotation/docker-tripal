@@ -73,6 +73,11 @@ If you need to install a module that is not hosted on http://www.drupal.org, you
 ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_analysis_expression.git"
 ```
 
+### Tripal usage
+
+The container is configured (with cron) to launch Tripal jobs in queue every 2 minutes.
+The log of these jobs is available in the /var/log/tripal_jobs.log log file, which is emptied regularly.
+
 ## Contributing
 
 Please submit all issues and pull requests to the [erasche/docker-tripal](http://github.com/erasche/docker-tripal) repository.

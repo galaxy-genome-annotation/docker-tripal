@@ -22,13 +22,14 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
     file libfreetype6 libjpeg62 libpng12-0 libpq-dev libx11-6 libxpm4 \
-    postgresql-client wget patch cron git && \
-    BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libxpm-dev re2c zlib1g-dev"; \
+    postgresql-client wget patch cron logrotate git python python-requests && \
+    BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libxpm-dev re2c zlib1g-dev python-pip python-dev libpq-dev"; \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
+ && pip install chado tripal \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
 # && pecl install uploadprogress # not yet compatible with php7 on PECL
@@ -59,6 +60,9 @@ RUN wget https://cpt.tamu.edu/jenkins/job/Chado-Prebuilt-Schemas/19/artifact/com
 
 # Add PHP-settings
 ADD php-conf.d/ $PHP_INI_DIR/conf.d/
+
+# Add logrotate conf
+ADD logrotate.d/tripal /etc/logrotate.d/
 
 # copy sites/default's defaults
 WORKDIR html

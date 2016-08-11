@@ -4,7 +4,6 @@ version: '2'
 services:
 
     web:
-      #build: .
       image: erasche/tripal:latest
       links:
         - db:postgres

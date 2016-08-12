@@ -29,6 +29,8 @@ DB_HOST=postgres
 export DB_DRIVER DB_HOST DB_PORT DB_NAME DB_USER DB_PASS
 echo -e "# Drupals's database configuration, parsed in /var/www/sites/default/settings.php\n
 export DB_DRIVER=${DB_DRIVER} DB_HOST=${DB_HOST} DB_PORT=${DB_PORT} DB_NAME=${DB_NAME} DB_USER=${DB_USER} DB_PASS=${DB_PASS}" >> /etc/profile
+echo -e "# Drupals's database configuration, parsed in /var/www/sites/default/settings.php\n
+export DB_DRIVER=${DB_DRIVER} DB_HOST=${DB_HOST} DB_PORT=${DB_PORT} DB_NAME=${DB_NAME} DB_USER=${DB_USER} DB_PASS=${DB_PASS}" >> /etc/bash.bashrc
 
 
 ###  connect to database

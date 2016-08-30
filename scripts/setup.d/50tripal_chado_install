@@ -42,5 +42,5 @@ drush role-add-perm 'authenticated user' 'access chado_organism content'
 drush trp-run-jobs --username=admin
 
 # And launch them regularly
-echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush trp-run-jobs --username=admin') > /var/log/tripal_jobs.log 2>&1" > tripal_cron && crontab tripal_cron && rm tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush trp-run-jobs --username=admin') >> /var/log/tripal_jobs.log 2>&1" > tripal_cron && crontab tripal_cron && rm tripal_cron
 service cron start

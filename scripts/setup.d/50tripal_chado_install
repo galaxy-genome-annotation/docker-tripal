@@ -4,7 +4,7 @@ psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME < /chado-master-tripal.sql
 echo "alter database postgres set search_path = '$user',public,chado;" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME;
 echo "CREATE INDEX bingroup_boxrange ON featuregroup USING gist (chado.boxrange(fmin, fmax)) WHERE (is_root = 1);" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME;
 
-drush pm-download ctools views tripal #-7.x-2.1-beta3 # tripal 2.1 will require chado 1.31
+drush pm-download ctools views tripal-7.x-2.x-dev
 drush pm-enable ctools views views_ui libraries services
 drush pm-enable rest_server
 

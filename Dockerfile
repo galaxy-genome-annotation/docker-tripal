@@ -56,7 +56,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
  && drush cc drush \
  && mkdir /etc/drush && echo "<?php\n\$options['yes'] = TRUE;\n\$options['v'] = TRUE;\n" > /etc/drush/drushrc.php
 
-RUN wget https://cpt.tamu.edu/jenkins/job/Chado-Prebuilt-Schemas/77/artifact/output/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz
+RUN wget https://github.com/erasche/chado-schema-builder/releases/download/0.0.0/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz
 
 # Add PHP-settings
 ADD php-conf.d/ $PHP_INI_DIR/conf.d/

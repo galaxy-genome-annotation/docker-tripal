@@ -39,6 +39,11 @@ else {
         $base_url = $protocol . "://" . $host . '/tripal';
 }
 
+// Needed when code uses request_uri() defined in bootstrap.inc
+if (!preg_match('#^/tripal#', $_SERVER['REQUEST_URI'])) {
+    $_SERVER['REQUEST_URI'] = '/tripal/' . $_SERVER['REQUEST_URI'];
+}
+
 $update_free_access = FALSE;
 
 $conf['drupal_http_request_fails'] = FALSE;

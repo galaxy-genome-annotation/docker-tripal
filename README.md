@@ -80,9 +80,18 @@ The log of these jobs is available in the /var/log/tripal_jobs.log log file, whi
 
 ## Credentials
 
+An admin account is autocreated with the following credentials:
+
 Username         | Password
 ---------------- | ---------
 admin            | changeme
+
+To customize this, the following environment variables are available:
+
+```
+ENV ADMIN_USER admin
+ENV ADMIN_PASSWORD changeme
+```
 
 ## Contributing
 

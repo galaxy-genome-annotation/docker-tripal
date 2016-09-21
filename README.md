@@ -78,6 +78,12 @@ ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git ht
 The container is configured (with cron) to launch Tripal jobs in queue every 2 minutes.
 The log of these jobs is available in the /var/log/tripal_jobs.log log file, which is emptied regularly.
 
+## Credentials
+
+Username         | Password
+---------------- | ---------
+admin            | changeme
+
 ## Contributing
 
 Please submit all issues and pull requests to the [erasche/docker-tripal](http://github.com/erasche/docker-tripal) repository.

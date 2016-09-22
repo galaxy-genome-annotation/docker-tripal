@@ -41,7 +41,7 @@ else {
 
 // Needed when code uses request_uri() defined in bootstrap.inc
 if (!preg_match('#^/tripal#', $_SERVER['REQUEST_URI'])) {
-    $_SERVER['REQUEST_URI'] = '/tripal/' . $_SERVER['REQUEST_URI'];
+    $_SERVER['REQUEST_URI'] = '/tripal' . $_SERVER['REQUEST_URI'];
 }
 
 $update_free_access = FALSE;

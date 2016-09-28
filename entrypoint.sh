@@ -26,11 +26,13 @@ DB_HOST=postgres
 : ${ADMIN_USER:='admin'}  # DO NOT export!
 : ${ADMIN_PASSWORD:='changeme'}  # DO NOT export!
 
-export DB_DRIVER DB_HOST DB_PORT DB_NAME DB_USER DB_PASS
+DRUPAL_HASH_SALT=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1`
+
+export DB_DRIVER DB_HOST DB_PORT DB_NAME DB_USER DB_PASS DRUPAL_HASH_SALT
 echo -e "# Drupals's database configuration, parsed in /var/www/sites/default/settings.php\n
-export DB_DRIVER=${DB_DRIVER} DB_HOST=${DB_HOST} DB_PORT=${DB_PORT} DB_NAME=${DB_NAME} DB_USER=${DB_USER} DB_PASS=${DB_PASS}" >> /etc/profile
+export DB_DRIVER=${DB_DRIVER} DB_HOST=${DB_HOST} DB_PORT=${DB_PORT} DB_NAME=${DB_NAME} DB_USER=${DB_USER} DB_PASS=${DB_PASS} DRUPAL_HASH_SALT=${DRUPAL_HASH_SALT}" >> /etc/profile
 echo -e "# Drupals's database configuration, parsed in /var/www/sites/default/settings.php\n
-export DB_DRIVER=${DB_DRIVER} DB_HOST=${DB_HOST} DB_PORT=${DB_PORT} DB_NAME=${DB_NAME} DB_USER=${DB_USER} DB_PASS=${DB_PASS}" >> /etc/bash.bashrc
+export DB_DRIVER=${DB_DRIVER} DB_HOST=${DB_HOST} DB_PORT=${DB_PORT} DB_NAME=${DB_NAME} DB_USER=${DB_USER} DB_PASS=${DB_PASS} DRUPAL_HASH_SALT=${DRUPAL_HASH_SALT}" >> /etc/bash.bashrc
 
 
 ###  connect to database

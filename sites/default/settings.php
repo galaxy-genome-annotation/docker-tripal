@@ -66,8 +66,7 @@ $conf['file_private_path'] = '/var/www/private';
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-# TODO  think of something clever here
-$drupal_hash_salt = '';
+$drupal_hash_salt = getenv('DRUPAL_HASH_SALT');
 
 /**
  * PHP settings:

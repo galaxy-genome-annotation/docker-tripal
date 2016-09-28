@@ -6,7 +6,7 @@ echo "CREATE INDEX bingroup_boxrange ON featuregroup USING gist (chado.boxrange(
 
 drush pm-download ctools views tripal-7.x-2.x-dev
 drush pm-enable ctools views views_ui libraries services
-drush pm-enable rest_server
+drush pm-enable rest_server ultimate_cron
 
 wget --no-check-certificate https://drupal.org/files/drupal.pgsql-bytea.27.patch && patch -p1 < drupal.pgsql-bytea.27.patch
 
@@ -26,7 +26,9 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
     done
     cd /var/www/html/
 fi
+
 drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature ${TRIPAL_ENABLE_MODULES}
+mkdir -p /var/www/html/sites/default/files/tripal_organism/tripal_organism/images # Create it now to ensure permissions are ok
 chgrp -R www-data /var/www/html/sites/default/files
 chmod -R g+rw /var/www/html/sites/default/files
 
@@ -42,5 +44,17 @@ drush role-add-perm 'authenticated user' 'access chado_organism content'
 drush trp-run-jobs --username=admin
 
 # And launch them regularly
-echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush trp-run-jobs --username=admin') >> /var/log/tripal_jobs.log 2>&1" > tripal_cron && crontab tripal_cron && rm tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush trp-run-jobs --username=admin') >> /var/log/tripal_jobs.log 2>&1" > tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_0') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_1') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_2') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_3') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_4') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_5') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_6') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_7') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_8') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+echo "*/2 * * * * (bash -lc 'cd /var/www/html; drush cron-run queue_elastic_queue_9') >> /var/log/tripal_cron.log 2>&1" >> tripal_cron
+crontab tripal_cron && rm tripal_cron
+
 service cron start

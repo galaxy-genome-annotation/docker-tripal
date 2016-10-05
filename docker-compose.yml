@@ -7,6 +7,7 @@ services:
       image: erasche/tripal:latest
       links:
         - db:postgres
+        - elasticsearch:elasticsearch
       volumes:
         - /var/www/html/sites
         - /var/www/private
@@ -25,3 +26,6 @@ services:
         - INSTALL_CHADO_SCHEMA=0
       volumes:
         - /var/lib/postgresql/9.4/
+
+    elasticsearch:
+      image: elasticsearch

@@ -27,6 +27,14 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
     cd /var/www/html/
 fi
 
+if [ ! -z "$THEME_GIT_CLONE" ]; then
+    cd /var/www/html/themes/
+    for repo in $THEME_GIT_CLONE; do
+        git clone $repo
+    done
+    cd /var/www/html/
+fi
+
 drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature ${TRIPAL_ENABLE_MODULES}
 mkdir -p /var/www/html/sites/default/files/tripal_organism/tripal_organism/images # Create it now to ensure permissions are ok
 chgrp -R www-data /var/www/html/sites/default/files

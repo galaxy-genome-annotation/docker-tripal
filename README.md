@@ -52,6 +52,20 @@ BASE_URL_PROTO: "http" # Guessed from apache REQUEST_SCHEME variable
 BASE_URL: "http://foo.bar.edu:3000/tripal" # Guessed from VIRTUAL_HOST and BASE_URL_PROTO
 ```
 
+You can change the website name and default theme using the following variables:
+
+```
+SITE_NAME: "My Tripal instance"
+THEME: "bartik"
+```
+
+You can also install alternate drupal themes with the THEME_GIT_CLONE variable:
+
+```
+THEME_GIT_CLONE: "https://github.com/example/foobar.git"
+THEME: "foobar"
+```
+
 ### Customizing the Image
 
 To build a derivative image from this, it should be as simple as writing a Dockerfile which builds off of this image.
@@ -100,3 +114,4 @@ Please submit all issues and pull requests to the [erasche/docker-tripal](http:/
 ## Support
 
 If you have any problem or suggestion please open an issue [here](https://github.com/erasche/docker-tripal/issues).
+

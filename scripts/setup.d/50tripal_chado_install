@@ -42,8 +42,8 @@ if [ ! -z "$THEME" ]; then
 fi
 
 drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature ${TRIPAL_ENABLE_MODULES}
-mkdir -p /var/www/html/sites/default/files/tripal_organism/tripal_organism/images # Create it now to ensure permissions are ok
-chgrp -R www-data /var/www/html/sites/default/files
+mkdir -p /var/www/html/sites/default/files/tripal/tripal_organism/tripal_organism/images # Create it now to ensure permissions are ok
+chown -R www-data: /var/www/html/sites/default/files
 chmod -R g+rw /var/www/html/sites/default/files
 
 # Ensure permissions are available

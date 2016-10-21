@@ -149,8 +149,6 @@ ini_set('session.cookie_lifetime', 2000000);
 # $conf['anonymous'] = 'Visitor';
 if (getenv('SITE_NAME'))
     $conf['site_name'] = getenv('SITE_NAME');
-if (getenv('THEME'))
-    $conf['theme_default'] = getenv('THEME');
 
 /**
  * A custom theme can be set for the offline page. This applies when the site
@@ -161,8 +159,6 @@ if (getenv('THEME'))
  * Note: This setting does not apply to installation and update pages.
  */
 # $conf['maintenance_theme'] = 'bartik';
-if (getenv('THEME'))
-    $conf['maintenance_theme'] = getenv('THEME');
 
 /**
  * Reverse Proxy Configuration:

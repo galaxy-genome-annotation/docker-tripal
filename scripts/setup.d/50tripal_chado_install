@@ -35,6 +35,12 @@ if [ ! -z "$THEME_GIT_CLONE" ]; then
     cd /var/www/html/
 fi
 
+if [ ! -z "$THEME" ]; then
+    # Activate the theme
+    drush pm-enable "$THEME"
+    drush vset theme_default "$THEME"
+fi
+
 drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature ${TRIPAL_ENABLE_MODULES}
 mkdir -p /var/www/html/sites/default/files/tripal_organism/tripal_organism/images # Create it now to ensure permissions are ok
 chgrp -R www-data /var/www/html/sites/default/files

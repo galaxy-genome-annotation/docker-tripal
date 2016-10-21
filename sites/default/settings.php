@@ -161,6 +161,8 @@ if (getenv('THEME'))
  * Note: This setting does not apply to installation and update pages.
  */
 # $conf['maintenance_theme'] = 'bartik';
+if (getenv('THEME'))
+    $conf['maintenance_theme'] = getenv('THEME');
 
 /**
  * Reverse Proxy Configuration:

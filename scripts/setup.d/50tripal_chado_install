@@ -28,7 +28,7 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
 fi
 
 if [ ! -z "$THEME_GIT_CLONE" ]; then
-    cd /var/www/html/themes/
+    cd /var/www/html/sites/all/themes/
     for repo in $THEME_GIT_CLONE; do
         git clone $repo
     done

@@ -13,7 +13,7 @@ $databases['default']['default'] = array(
   'prefix' => '',
 );
 
-$conf['elasticsearch_hosts'] = array('hosts' => array('elasticsearch'));
+$conf['elasticsearch_hosts'] = array('elasticsearch');
 
 if (getenv('BASE_URL'))
     // Use BASE_URL if defined by user

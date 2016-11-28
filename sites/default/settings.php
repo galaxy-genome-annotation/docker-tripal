@@ -38,12 +38,12 @@ else {
         $host = NULL; // Unable to guess host part, let drupal decide what to do
 
     if ($host)
-        $base_url = $protocol . "://" . $host . '/tripal';
+        $base_url = $protocol . "://" . $host . getenv('BASE_URL_PATH');
 }
 
 // Needed when code uses request_uri() defined in bootstrap.inc
-if (!preg_match('#^/tripal#', $_SERVER['REQUEST_URI'])) {
-    $_SERVER['REQUEST_URI'] = '/tripal' . $_SERVER['REQUEST_URI'];
+if (!preg_match('#^'.getenv('BASE_URL_PATH').'#', $_SERVER['REQUEST_URI'])) {
+    $_SERVER['REQUEST_URI'] = getenv('BASE_URL_PATH') . $_SERVER['REQUEST_URI'];
 }
 
 $update_free_access = FALSE;

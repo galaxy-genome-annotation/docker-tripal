@@ -49,7 +49,8 @@ If the page is not styled correctly, we exposed some environment variables that 
 # as they are autodetected. If needed, setting these variables will disable autodetection
 VIRTUAL_HOST: foo.bar.edu # Guessed from HTTP_X_FORWARDED_HOST if behind a proxy, or from hostname
 BASE_URL_PROTO: "http" # Guessed from apache REQUEST_SCHEME variable
-BASE_URL: "http://foo.bar.edu:3000/tripal" # Guessed from VIRTUAL_HOST and BASE_URL_PROTO
+BASE_URL_PATH: "/tripal" # Default is /tripal
+BASE_URL: "http://foo.bar.edu:3000/tripal" # Guessed from VIRTUAL_HOST, BASE_URL_PROTO and BASE_URL_PATH
 ```
 
 You can change the website name and default theme using the following variables:
@@ -114,4 +115,3 @@ Please submit all issues and pull requests to the [erasche/docker-tripal](http:/
 ## Support
 
 If you have any problem or suggestion please open an issue [here](https://github.com/erasche/docker-tripal/issues).
-

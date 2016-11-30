@@ -37,6 +37,9 @@ services:
       - INSTALL_CHADO_SCHEMA=0
     volumes:
       - /var/lib/postgresql/9.4/
+
+  elasticsearch:
+    image: elasticsearch
 ```
 
 ## Configuring the Container
@@ -92,6 +95,34 @@ ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git ht
 
 The container is configured (with cron) to launch Tripal jobs in queue every 2 minutes.
 The log of these jobs is available in the /var/log/tripal_jobs.log log file, which is emptied regularly.
+
+### Data backup
+
+To ease the backup of a tripal instance, you can mount several docker volumes by modifying the docker-compose.yml file:
+
+```yaml
+version: "2"
+services:
+  tripal:
+    image: erasche/tripal:latest
+    [...]
+    volumes:
+      - ./your/backed/up/dir/tripal_sites:/var/www/html/sites
+      - ./your/backed/up/dir/tripal_private:/var/www/private
+      [...]
+  db:
+    image: erasche/chado:latest
+    [...]
+    volumes:
+      - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/9.4/
+
+  elasticsearch:
+    image: elasticsearch
+    volumes:
+      - ./your/backed/up/dir/tripal_index/:/usr/share/elasticsearch/data
+```
+
+You can then launch regular backups of ./your/backed/up/dir/
 
 ## Credentials
 

@@ -66,7 +66,7 @@ ADD logrotate.d/tripal /etc/logrotate.d/
 
 # copy sites/default's defaults
 WORKDIR html
-ADD sites/ sites/
+ADD etc/tripal/settings.php /etc/tripal/settings.php
 
 # Add README.md, entrypoint-script and scripts-folder
 ADD entrypoint.sh README.md  /

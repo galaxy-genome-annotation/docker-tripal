@@ -9,6 +9,11 @@ This image contains a ready-to-go installation of Tripal v2.1.
 ## Using the Container
 
 We highly recommend using a `docker-compose.yml` to run your containers.
+The following example will run 3 docker containers:
+
+ - `tripal`: contains the Tripal code served by an Apache server
+ - `db`: a postgresql server hosting the Chado database used by Tripal
+ - `elasticsearch`: an elasticsearch server used by Tripal to index data when the tripal_elasticsearch module is enabled.
 
 ```yaml
 version: "2"
@@ -70,7 +75,7 @@ THEME_GIT_CLONE: "https://github.com/example/foobar.git"
 THEME: "foobar"
 ```
 
-### Customizing the Image
+## Customizing the Image
 
 To build a derivative image from this, it should be as simple as writing a Dockerfile which builds off of this image.
 
@@ -91,12 +96,12 @@ If you need to install a module that is not hosted on http://www.drupal.org, you
 ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_analysis_expression.git"
 ```
 
-### Tripal usage
+## Tripal usage
 
 The container is configured (with cron) to launch Tripal jobs in queue every 2 minutes.
 The log of these jobs is available in the /var/log/tripal_jobs.log log file, which is emptied regularly.
 
-### Data backup
+## Data backup
 
 To ease the backup of a tripal instance, you can mount several docker volumes by modifying the docker-compose.yml file:
 
@@ -123,6 +128,26 @@ services:
 ```
 
 You can then launch regular backups of ./your/backed/up/dir/
+
+## Elasticsearch configuration
+
+You may encounter the following error when launching the elasticsearch container:
+
+```
+initial heap size [268435456] not equal to maximum heap size [1073741824]; this can cause resize pauses and prevents mlockall from locking the entire heap
+```
+
+As explained [here](https://github.com/docker-library/elasticsearch/issues/98#issuecomment-218071315), you will need to increase the `vm.max_map_count` setting on the host where the docker is running by launching:
+
+```
+sudo sysctl -w vm.max_map_count=262144
+```
+
+This setting will get reset to the default value when restarting the host. To make it permanent, add this line to `/etc/sysctl.d/99-sysctl.conf`:
+
+```
+vm.max_map_count=262144
+```
 
 ## Credentials
 

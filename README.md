@@ -30,7 +30,7 @@ services:
       MEMORY_LIMIT: 128M
       TRIPAL_DOWNLOAD_MODULES: "tripal_analysis_blast-7.x-2.x-dev"
       TRIPAL_GIT_CLONE_MODULES: "https://github.com/tripal/tripal_analysis_expression.git"
-      TRIPAL_ADDITIONAL_MODULES: "tripal_analysis_blast tripal_analysis_expression tripal_analysis_intepro"
+      TRIPAL_ADDITIONAL_MODULES: "tripal_analysis_blast tripal_analysis_expression tripal_analysis_interpro"
     ports:
       - "3000:80"
   db:

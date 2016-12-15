@@ -13,8 +13,38 @@ $databases['default']['default'] = array(
   'prefix' => '',
 );
 
+$conf['elasticsearch_hosts'] = array('elasticsearch');
+
 if (getenv('BASE_URL'))
-  $base_url = getenv('BASE_URL');
+    // Use BASE_URL if defined by user
+    $base_url = getenv('BASE_URL');
+else {
+    // Guess protocol
+    if (getenv('BASE_URL_PROTO'))
+        $protocol = getenv('BASE_URL_PROTO');
+    else if (array_key_exists("REQUEST_SCHEME", $_SERVER))
+        $protocol = $_SERVER['REQUEST_SCHEME'];
+    else
+        $protocol = 'https';
+
+    // Guess host
+    if (getenv('VIRTUAL_HOST'))
+        // Use VIRTUAL_HOST if defined by user
+        $host = getenv('VIRTUAL_HOST');
+    else if (array_key_exists("HTTP_X_FORWARDED_HOST", $_SERVER))
+        // Else trust the proxy
+        $host = explode(', ', $_SERVER['HTTP_X_FORWARDED_HOST'])[0];
+    else
+        $host = NULL; // Unable to guess host part, let drupal decide what to do
+
+    if ($host)
+        $base_url = $protocol . "://" . $host . getenv('BASE_URL_PATH');
+}
+
+// Needed when code uses request_uri() defined in bootstrap.inc
+if (!preg_match('#^'.getenv('BASE_URL_PATH').'#', $_SERVER['REQUEST_URI'])) {
+    $_SERVER['REQUEST_URI'] = getenv('BASE_URL_PATH') . $_SERVER['REQUEST_URI'];
+}
 
 $update_free_access = FALSE;
 
@@ -38,8 +68,7 @@ $conf['file_private_path'] = '/var/www/private';
  *   $drupal_hash_salt = file_get_contents('/home/example/salt.txt');
  *
  */
-# TODO  think of something clever here
-$drupal_hash_salt = '';
+$drupal_hash_salt = getenv('DRUPAL_HASH_SALT');
 
 /**
  * PHP settings:
@@ -118,6 +147,8 @@ ini_set('session.cookie_lifetime', 2000000);
 # $conf['site_name'] = 'My Drupal site';
 # $conf['theme_default'] = 'garland';
 # $conf['anonymous'] = 'Visitor';
+if (getenv('SITE_NAME'))
+    $conf['site_name'] = getenv('SITE_NAME');
 
 /**
  * A custom theme can be set for the offline page. This applies when the site

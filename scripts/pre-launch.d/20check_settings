@@ -1,0 +1,15 @@
+# Add possibly missing files/dirs if sites dir is empty (e.g. first mount from host dir)
+
+if [ ! -e /var/www/html/sites/default/files ]; then
+    mkdir -p /var/www/html/sites/default/files
+fi
+
+if [ ! -e /var/www/html/sites/all ]; then
+    mkdir -p /var/www/html/sites/all/libraries/
+    mkdir -p /var/www/html/sites/all/modules/
+    mkdir -p /var/www/html/sites/all/themes/
+fi
+
+if [ ! -e /var/www/html/sites/default/settings.php ]; then
+    cp /etc/tripal/settings.php /var/www/html/sites/default/settings.php
+fi

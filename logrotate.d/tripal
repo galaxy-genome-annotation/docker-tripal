@@ -1,0 +1,9 @@
+/var/log/tripal_jobs.log {
+        daily
+        missingok
+        rotate 2
+        compress
+        delaycompress
+        notifempty
+        create 640 root root
+}

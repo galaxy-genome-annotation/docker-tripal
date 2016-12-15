@@ -2,7 +2,6 @@
 # For customization options see: https://docs.docker.com/compose/yml/
 
 web:
-  #build: .
   image: erasche/tripal:latest
   links:
     - db:postgres
@@ -18,11 +17,13 @@ web:
     - "3000:80"
 
 db:
-  image: erasche/chado:latest
+  image: erasche/chado:1.31-jenkins97
   environment:
-    - POSTGRES_PASSWORD=password
+    - POSTGRES_PASSWORD=postgres
       # The default chado image would try to install the schema on first run,
       # we just want the tools to be available.
     - INSTALL_CHADO_SCHEMA=0
+    - INSTALL_YEAST_DATA=0
+    - PGDATA=/var/lib/postgresql/data/
   volumes:
-    - /var/lib/postgresql/9.4/
+    - /var/lib/postgresql/data/

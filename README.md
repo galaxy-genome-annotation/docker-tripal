@@ -41,7 +41,7 @@ services:
         # we just want the GMOD tools to be available.
       - INSTALL_CHADO_SCHEMA=0
     volumes:
-      - /var/lib/postgresql/9.4/
+      - /var/lib/postgresql/data/
 
   elasticsearch:
     image: elasticsearch

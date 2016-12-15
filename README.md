@@ -28,17 +28,20 @@ services:
       # correctly. If you run on :80 it should be OK to remove BASE_URL
       BASE_URL: "http://foo.bar.edu:3000"
       BASE_URL_PROTO: "http://"
+      DB_NAME: 'tripal'
     ports:
       - "3000:80"
   db:
-    image: erasche/chado:latest
+    image: erasche/chado:1.31-jenkins97
     environment:
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,
         # we just want the GMOD tools to be available.
       - INSTALL_CHADO_SCHEMA=0
+      - INSTALL_YEAST_DATA=0
+      - PGDATA=/var/lib/postgresql/data/
     volumes:
-      - /var/lib/postgresql/9.4/
+      - /var/lib/postgresql/data/
 ```
 
 ## Contributing

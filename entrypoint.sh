@@ -64,7 +64,11 @@ fi
 
 ### Initial setup if database doesn't exist
 
-if ! drush pm-list > /dev/null 2>&1; then
+# Check if tables are there and that drush works
+DB_LOADED=$(PGPASSWORD=$DB_PASS psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" $DB_NAME -tAc "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'organism');")
+DRUSH_OK=`drush pm-list > /dev/null 2>&1; echo "$?"`
+if [[ $DRUSH_OK != "0" && $DB_LOADED != "t" ]]
+then
 	run_scripts setup
 	echo "=> Done installing site!"
 	if [ $EXTRA_SETUP_SCRIPT ]; then
@@ -72,7 +76,16 @@ if ! drush pm-list > /dev/null 2>&1; then
 		. $EXTRA_SETUP_SCRIPT
 		echo "=> Successfully ran extra setup script ${EXTRA_SETUP_SCRIPT}."
 	fi
-	else
+elif [[ $DRUSH_OK == "0" && $DB_LOADED != "t" ]]
+then
+	echo "=> Error: 'drush pm-list' ok but could not find chado tables. Something is wrong in the install. Exiting."
+    exit 1
+elif [[ $DRUSH_OK != "0" && $DB_LOADED == "t" ]]
+then
+	echo "=> Error: 'drush pm-list' fails but the database is not empty. Something is wrong in the install. Exiting."
+    drush pm-list
+    exit $?
+else
 	echo "=> Skipped setup - database ${DB_NAME} already exists."
 fi
 

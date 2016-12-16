@@ -65,7 +65,7 @@ fi
 ### Initial setup if database doesn't exist
 
 # Check if tables are there and that drush works
-DB_LOADED=$(PGPASSWORD=$DB_PASS psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" $DB_NAME -tAc "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'organism');")
+DB_LOADED=$(PGPASSWORD=$DB_PASS psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -tAc "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'organism');")
 DRUSH_OK=`drush pm-list > /dev/null 2>&1; echo "$?"`
 if [[ $DRUSH_OK != "0" && $DB_LOADED != "t" ]]
 then

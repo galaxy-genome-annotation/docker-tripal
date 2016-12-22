@@ -40,7 +40,7 @@ services:
     ports:
       - "3000:80"
   db:
-    image: erasche/chado:1.31-jenkins97
+    image: erasche/chado:1.31-jenkins97-pg9.5
     environment:
       - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,
@@ -127,7 +127,7 @@ services:
     image: erasche/chado:latest
     [...]
     volumes:
-      - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/9.4/
+      - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/data/
 
   elasticsearch:
     image: elasticsearch
@@ -170,7 +170,6 @@ To customize this, the following environment variables are available:
 ```
 ENV ADMIN_USER admin
 ENV ADMIN_PASSWORD changeme
->>>>>>> 4753d3b9fea136dadda97f475e00dd2b7ad7ccad
 ```
 
 ## Contributing

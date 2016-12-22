@@ -38,8 +38,8 @@ RUN apt-get -q update && \
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.52
-ENV DRUPAL_TARBALL_MD5=4963e68ca12918d3a3eae56054214191
+ENV DRUPAL_VERSION=7.53
+ENV DRUPAL_TARBALL_MD5=4230279ecca4f0cde652a219e10327e7
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \

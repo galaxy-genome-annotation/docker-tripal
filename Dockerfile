@@ -74,6 +74,9 @@ ADD /scripts/ /scripts/
 
 ADD tripal_apache.conf /etc/apache2/conf-enabled/tripal_apache.conf
 
+# Temp fix until https://github.com/tripal/tripal/pull/21 is merged
+ADD PR21_fix_chado_query.diff /PR21_fix_chado_query.diff
+
 ENV BASE_URL_PATH="/tripal"
 
 ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_elasticsearch.git"

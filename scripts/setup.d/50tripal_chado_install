@@ -16,6 +16,12 @@ patch -p1 < ../tripal/tripal_views/views-sql-compliant-three-tier-naming-1971160
 cd /var/www/html/
 
 drush pm-enable tripal_core
+
+# Temp fix until https://github.com/tripal/tripal/pull/21 is merged
+cd /var/www/html/sites/all/modules/tripal/
+patch -p1 < /PR21_fix_chado_query.diff
+cd /var/www/html/
+
 if [ ! -z "$TRIPAL_DOWNLOAD_MODULES" ]; then
     drush pm-download ${TRIPAL_DOWNLOAD_MODULES}
 fi

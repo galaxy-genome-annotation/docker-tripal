@@ -17,9 +17,10 @@ cd /var/www/html/
 
 drush pm-enable tripal_core
 
-# Temp fix until https://github.com/tripal/tripal/pull/21 is merged
+# Temp fix until https://github.com/tripal/tripal/pull/21 and https://github.com/tripal/tripal/pull/22 are merged
 cd /var/www/html/sites/all/modules/tripal/
-patch -p1 < /PR21_fix_chado_query.diff
+patch -p1 -N < /PR21_fix_chado_query.diff
+patch -p1 -N < /PR22_gff_load.diff
 cd /var/www/html/
 
 if [ ! -z "$TRIPAL_DOWNLOAD_MODULES" ]; then

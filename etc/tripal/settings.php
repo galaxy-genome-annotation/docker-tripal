@@ -28,8 +28,6 @@ $conf['elasticsearch_hosts'] = array('elasticsearch');
  */
 $conf['cache'] = TRUE;
 $conf['block_cache'] = TRUE;
-$conf['preprocess_css'] = TRUE;
-$conf['preprocess_js'] = TRUE;
 
 if (getenv('BASE_URL'))
     // Use BASE_URL if defined by user

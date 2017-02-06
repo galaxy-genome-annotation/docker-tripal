@@ -83,6 +83,13 @@ THEME_GIT_CLONE: "https://github.com/example/foobar.git"
 THEME: "foobar"
 ```
 
+By default some caching is done for better performances. You can disable it with the following variables:
+
+```
+ENABLE_OP_CACHE: 0 # To disable the PHP opcache
+ENABLE_DRUPAL_CACHE: 0 # To disable Drupal built-in cache
+```
+
 ## Customizing the Image
 
 To build a derivative image from this, it should be as simple as writing a Dockerfile which builds off of this image.

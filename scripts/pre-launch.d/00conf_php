@@ -3,3 +3,11 @@ echo -e "upload_max_filesize = ${UPLOAD_LIMIT}\npost_max_size = ${UPLOAD_LIMIT}"
 	> $PHP_INI_DIR'/conf.d/upload-limit.ini'
 : ${MEMORY_LIMIT:='128M'}
 echo "memory_limit = ${MEMORY_LIMIT}" > $PHP_INI_DIR'/conf.d/memory-limit.ini'
+
+if [[ $DRUSH_OK == "1" ]]
+then
+    echo "PHP OPcache enabled"
+    echo "opcache.enable=1" > $PHP_INI_DIR'/conf.d/opcache-status.ini'
+else
+    echo "PHP OPcache disabled"
+fi

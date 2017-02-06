@@ -26,8 +26,10 @@ $conf['elasticsearch_hosts'] = array('elasticsearch');
 /**
  * Caching
  */
-$conf['cache'] = TRUE;
-$conf['block_cache'] = TRUE;
+if (getenv('ENABLE_DRUPAL_CACHE') == "1") {
+    $conf['cache'] = TRUE;
+    $conf['block_cache'] = TRUE;
+}
 
 if (getenv('BASE_URL'))
     // Use BASE_URL if defined by user
@@ -37,7 +39,7 @@ else {
     if (getenv('BASE_URL_PROTO'))
         $protocol = getenv('BASE_URL_PROTO');
     else if (array_key_exists("HTTP_X_FORWARDED_PROTOCOL", $_SERVER))
-        $protocol = $_SERVER['HTTP_X_FORWARDED_PROTOCOL']
+        $protocol = $_SERVER['HTTP_X_FORWARDED_PROTOCOL'];
     else if (array_key_exists("REQUEST_SCHEME", $_SERVER))
         $protocol = $_SERVER['REQUEST_SCHEME'];
     else

@@ -36,6 +36,8 @@ else {
     // Guess protocol
     if (getenv('BASE_URL_PROTO'))
         $protocol = getenv('BASE_URL_PROTO');
+    else if (array_key_exists("HTTP_X_FORWARDED_PROTOCOL", $_SERVER))
+        $protocol = $_SERVER['HTTP_X_FORWARDED_PROTOCOL']
     else if (array_key_exists("REQUEST_SCHEME", $_SERVER))
         $protocol = $_SERVER['REQUEST_SCHEME'];
     else

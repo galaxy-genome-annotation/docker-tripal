@@ -1,5 +1,4 @@
-# Temp fix until https://github.com/tripal/tripal/pull/21 and https://github.com/tripal/tripal/pull/22 are merged
-cd /var/www/html/sites/all/modules/tripal/
-patch -p1 -N < /PR21_fix_chado_query.diff || echo ""
-patch -p1 -N < /PR22_gff_load.diff || echo ""
-cd /var/www/html/
+# Temp fix until pull requests are merged
+#cd /var/www/html/sites/all/modules/tripal/
+# No PR at the moment...
+#cd /var/www/html/

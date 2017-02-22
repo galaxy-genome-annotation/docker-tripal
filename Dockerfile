@@ -74,11 +74,6 @@ ADD /scripts/ /scripts/
 
 ADD tripal_apache.conf /etc/apache2/conf-enabled/tripal_apache.conf
 
-# Temp fix until https://github.com/tripal/tripal/pull/21 is merged
-ADD PR21_fix_chado_query.diff /PR21_fix_chado_query.diff
-# Temp fix until https://github.com/tripal/tripal/pull/22 is merged
-ADD PR22_gff_load.diff /PR22_gff_load.diff
-
 ENV BASE_URL_PATH="/tripal" \
     ENABLE_DRUPAL_CACHE=1 \
     ENABLE_OP_CACHE=1\

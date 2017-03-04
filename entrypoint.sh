@@ -28,6 +28,12 @@ DB_HOST=postgres
 
 DRUPAL_HASH_SALT=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1`
 
+PGHOST=${DB_HOST};
+PGPORT=${DB_PORT};
+PGDATABASE=${DB_NAME};
+PGUSER=${DB_USER};
+PGPASSWORD=${DB_PASS};
+export PGHOST PGPORT PGDATABASE PGUSER PGPASSWORD
 export DB_DRIVER DB_HOST DB_PORT DB_NAME DB_USER DB_PASS DRUPAL_HASH_SALT
 echo -e "# Drupals's database configuration, parsed in /var/www/sites/default/settings.php\n
 export DB_DRIVER=${DB_DRIVER} DB_HOST=${DB_HOST} DB_PORT=${DB_PORT} DB_NAME=${DB_NAME} DB_USER=${DB_USER} DB_PASS=${DB_PASS} DRUPAL_HASH_SALT=${DRUPAL_HASH_SALT}" >> /etc/profile

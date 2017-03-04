@@ -58,6 +58,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins90/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz
 
+# Add custom functions
+ADD search.sql /search.sql
+
 # Add PHP-settings
 ADD php-conf.d/ $PHP_INI_DIR/conf.d/
 

@@ -15,7 +15,7 @@ WHERE
     feature.organism_id = (select organism_id from organism where common_name=argOrgName)
     AND
     -- with queried seqid
-    (featureloc.srcfeature_id IN (SELECT feature_id FROM feature WHERE uniquename = argRefseq))
+    (featureloc.srcfeature_id IN (SELECT feature_id FROM feature WHERE name = argRefseq))
     AND
     -- within queried region
     (featureloc.fmin <= argFmax AND argFmin <= featureloc.fmax)

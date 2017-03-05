@@ -35,7 +35,7 @@ SELECT
             WHERE
                 feature.organism_id = (select organism_id from organism where common_name=argOrgName)
                 AND
-                feature.uniquename = argRefSeq
+                feature.name = argRefSeq
         )
         from argFmin for argFlen
     ) as "sequence"

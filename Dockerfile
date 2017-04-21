@@ -38,8 +38,8 @@ RUN apt-get -q update && \
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.53
-ENV DRUPAL_TARBALL_MD5=4230279ecca4f0cde652a219e10327e7
+ENV DRUPAL_VERSION=7.54
+ENV DRUPAL_TARBALL_MD5=3068cbe488075ae166e23ea6cd29cf0f
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \
@@ -56,7 +56,23 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
  && drush cc drush \
  && mkdir /etc/drush && echo "<?php\n\$options['yes'] = TRUE;\n\$options['v'] = TRUE;\n" > /etc/drush/drushrc.php
 
-RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins90/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz
+RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins90/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz \
+    && wget --no-check-certificate https://drupal.org/files/drupal.pgsql-bytea.27.patch -O /drupal.pgsql-bytea.27.patch
+
+WORKDIR html
+
+ENV BASE_URL_PATH="/tripal" \
+    ENABLE_DRUPAL_CACHE=1 \
+    ENABLE_OP_CACHE=1\
+    TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev"\
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_elasticsearch.git" \
+    TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
+    TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch"
+
+# Pre download all default modules
+RUN drush pm-download ctools views libraries services ultimate_cron ${TRIPAL_BASE_MODULE} \
+    $TRIPAL_DOWNLOAD_MODULES \
+    && for repo in $TRIPAL_GIT_CLONE_MODULES; do git clone $repo /var/www/html/sites/all/modules/`basename $repo .git`; done
 
 # Add custom functions
 ADD search.sql /search.sql
@@ -68,7 +84,6 @@ ADD php-conf.d/ $PHP_INI_DIR/conf.d/
 ADD logrotate.d/tripal /etc/logrotate.d/
 
 # copy sites/default's defaults
-WORKDIR html
 ADD etc/tripal/settings.php /etc/tripal/settings.php
 
 # Add README.md, entrypoint-script and scripts-folder
@@ -76,12 +91,5 @@ ADD entrypoint.sh README.md  /
 ADD /scripts/ /scripts/
 
 ADD tripal_apache.conf /etc/apache2/conf-enabled/tripal_apache.conf
-
-ENV BASE_URL_PATH="/tripal" \
-    ENABLE_DRUPAL_CACHE=1 \
-    ENABLE_OP_CACHE=1\
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_elasticsearch.git" \
-    TRIPAL_DOWNLOAD_MODULES="tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
-    TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch"
 
 CMD ["/entrypoint.sh"]

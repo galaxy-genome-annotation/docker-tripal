@@ -131,7 +131,7 @@ services:
       - ./your/backed/up/dir/tripal_private:/var/www/private
       [...]
   db:
-    image: erasche/chado:latest
+    image: erasche/chado:1.31-jenkins97-pg9.5
     [...]
     volumes:
       - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/data/

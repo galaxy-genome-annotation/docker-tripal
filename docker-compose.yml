@@ -16,7 +16,7 @@ services:
         MEMORY_LIMIT: 128M
         BASE_URL: "http://localhost:3000/tripal"
         BASE_URL_PROTO: "http://"
-        DB_NAME: 'tripal'
+        DB_NAME: 'postgres'
       ports:
         - "3000:80"
 

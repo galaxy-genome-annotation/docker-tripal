@@ -69,7 +69,7 @@ fi
 
 
 ### Initial setup if database doesn't exist
-if [ "$( psql -U $DB_USER -h $DB_HOST -p $DB_PORT postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" )" != '1' ]
+if [ "$(PGPASSWORD=$DB_PASS psql -U $DB_USER -h $DB_HOST -p $DB_PORT postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" )" != '1' ]
 then
     echo "Database $DB_NAME does not exist, creating it"
     echo "CREATE DATABASE $DB_NAME;" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT postgres;

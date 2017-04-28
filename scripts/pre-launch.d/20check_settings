@@ -10,6 +10,7 @@ if [ ! -e /var/www/html/sites/all ]; then
     mkdir -p /var/www/html/sites/all/themes/
 fi
 
+# This is probably already done in entrypoint.sh, but just in case
 if [ ! -e /var/www/html/sites/default/settings.php ]; then
     cp /etc/tripal/settings.php /var/www/html/sites/default/settings.php
 fi

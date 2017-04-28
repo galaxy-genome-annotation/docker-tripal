@@ -75,6 +75,15 @@ then
     echo "CREATE DATABASE $DB_NAME;" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT postgres;
 fi
 
+# Add possibly missing files/dirs if sites dir is empty (files needed by drush pm-list)
+if [ ! -e /var/www/html/sites/default ]; then
+    mkdir -p /var/www/html/sites/default/
+fi
+
+if [ ! -e /var/www/html/sites/default/settings.php ]; then
+    cp /etc/tripal/settings.php /var/www/html/sites/default/settings.php
+fi
+
 # Check if tables are there and that drush works
 DB_LOADED=$(PGPASSWORD=$DB_PASS psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -tAc "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'organism');")
 DRUSH_OK=`drush pm-list > /dev/null 2>&1; echo "$?"`

@@ -37,13 +37,17 @@ drush role-add-perm 'authenticated user' 'access chado_organism content'
 # We don't want to overwrite existing modules to avoid unexpected changes in module code
 
 # Temporary disable default settings to allow usage of --no option
-mv /etc/drush/drushrc.php /etc/drush/drushrc.php_back
+if [ -f /etc/drush/drushrc.php ]; then
+    mv /etc/drush/drushrc.php /etc/drush/drushrc.php_back
+fi
 
 if [ ! -z "$TRIPAL_DOWNLOAD_MODULES" ]; then
     drush pm-download --no ${TRIPAL_DOWNLOAD_MODULES}
 fi
 
-mv /etc/drush/drushrc.php_back /etc/drush/drushrc.php
+if [ -f /etc/drush/drushrc.php_back ]; then
+    mv /etc/drush/drushrc.php_back /etc/drush/drushrc.php
+fi
 
 
 if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then

@@ -74,6 +74,10 @@ RUN drush pm-download ctools views libraries services ultimate_cron ${TRIPAL_BAS
     $TRIPAL_DOWNLOAD_MODULES \
     && for repo in $TRIPAL_GIT_CLONE_MODULES; do git clone $repo /var/www/html/sites/all/modules/`basename $repo .git`; done
 
+RUN cd /var/www/html/sites/all/modules/views \
+    && patch -p1 < ../tripal/tripal_views/views-sql-compliant-three-tier-naming-1971160-30.patch \
+    && cd /var/www/html/
+
 # Add custom functions
 ADD search.sql /search.sql
 

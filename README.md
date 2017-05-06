@@ -4,7 +4,7 @@
 
 ![Tripal Logo](http://tripal.info/sites/default/files/TripalLogo_dark.png)
 
-This image contains a ready-to-go installation of Tripal v2.1.
+This image contains a ready-to-go installation of Tripal v2.x.
 
 ## Using the Container
 
@@ -40,7 +40,7 @@ services:
     ports:
       - "3000:80"
   db:
-    image: erasche/chado:1.31-jenkins97-pg9.5
+    image: erasche/chado
     environment:
       - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,
@@ -131,7 +131,7 @@ services:
       - ./your/backed/up/dir/tripal_private:/var/www/private
       [...]
   db:
-    image: erasche/chado:1.31-jenkins97-pg9.5
+    image: erasche/chado
     [...]
     volumes:
       - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/data/

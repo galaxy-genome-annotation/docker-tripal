@@ -64,9 +64,9 @@ WORKDIR html
 ENV BASE_URL_PATH="/tripal" \
     ENABLE_DRUPAL_CACHE=1 \
     ENABLE_OP_CACHE=1\
-    TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev"\
+    TRIPAL_BASE_MODULE="tripal-7.x-2.1"\
     TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_elasticsearch.git" \
-    TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
+    TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.1 tripal_analysis_blast-7.x-2.1 tripal_analysis_go-7.x-2.1" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch"
 
 # Pre download all default modules

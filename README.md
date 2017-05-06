@@ -19,7 +19,7 @@ The following example will run 3 docker containers:
 version: "2"
 services:
   tripal:
-    image: erasche/tripal:latest
+    image: erasche/tripal:2.1
     links:
       - db:postgres
     volumes:
@@ -40,7 +40,7 @@ services:
     ports:
       - "3000:80"
   db:
-    image: erasche/chado:1.31-jenkins97-pg9.5
+    image: erasche/chado
     environment:
       - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,
@@ -124,14 +124,14 @@ To ease the backup of a tripal instance, you can mount several docker volumes by
 version: "2"
 services:
   tripal:
-    image: erasche/tripal:latest
+    image: erasche/tripal:2.1
     [...]
     volumes:
       - ./your/backed/up/dir/tripal_sites:/var/www/html/sites
       - ./your/backed/up/dir/tripal_private:/var/www/private
       [...]
   db:
-    image: erasche/chado:1.31-jenkins97-pg9.5
+    image: erasche/chado
     [...]
     volumes:
       - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/data/

@@ -111,6 +111,12 @@ If you need to install a module that is not hosted on http://www.drupal.org, you
 ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_analysis_expression.git"
 ```
 
+If you want to get a specific git revision, you can use this syntax:
+
+```
+ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@b8f1e7fe221814eb65d7093e7c732e52056b98ab]"
+```
+
 ## Tripal usage
 
 The container is configured (with cron) to launch Tripal jobs in queue every 2 minutes.

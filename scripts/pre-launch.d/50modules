@@ -53,11 +53,18 @@ fi
 if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
     cd /var/www/html/sites/all/modules/
     for repo in $TRIPAL_GIT_CLONE_MODULES; do
-        module_name=`basename $repo .git`
+        repo_url=`echo $repo | sed 's/\(.\+\)\[@\w\+\]/\1/'`
+        rev=`echo $repo | sed 's/.\+\[@\(\w\+\)\]/\1/'`
+        module_name=`basename $repo_url .git`
         if [ -d "$module_name" ]; then
-            echo "Skipping git clone of module $module_name from $repo, $module_name already exists in /var/www/html/sites/all/modules/$module_name"
+            echo "Skipping git clone of module $module_name from $repo_url, $module_name already exists in /var/www/html/sites/all/modules/$module_name"
         else
-            git clone $repo
+            git clone $repo_url
+            if [ "$repo_url" != "$rev" ]; then
+                cd "$module_name"
+                git reset --hard $rev
+                cd /var/www/html/sites/all/modules/
+            fi
         fi
     done
     cd /var/www/html/

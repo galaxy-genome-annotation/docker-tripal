@@ -22,7 +22,7 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
     file libfreetype6 libjpeg62 libpng12-0 libpq-dev libx11-6 libxpm4 \
-    postgresql-client wget patch cron logrotate git python python-requests && \
+    postgresql-client wget patch cron logrotate git nano python python-requests && \
     BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libxpm-dev re2c zlib1g-dev python-pip python-dev libpq-dev"; \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
@@ -65,14 +65,24 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_DRUPAL_CACHE=1 \
     ENABLE_OP_CACHE=1\
     TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev"\
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_elasticsearch.git" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@b8f1e7fe221814eb65d7093e7c732e52056b98ab] https://github.com/tripal/tripal_elasticsearch.git[@9e5580c564a03c97c6f2fa67700e791ac522dd4e] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git https://github.com/UofS-Pulse-Binfo/nd_genotypes.git https://github.com/UofS-Pulse-Binfo/genotypes_loader.git" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
-    TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch"
+    TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api nd_genotypes genotypes_loader"
 
 # Pre download all default modules
 RUN drush pm-download ctools views libraries services ultimate_cron ${TRIPAL_BASE_MODULE} \
     $TRIPAL_DOWNLOAD_MODULES \
-    && for repo in $TRIPAL_GIT_CLONE_MODULES; do git clone $repo /var/www/html/sites/all/modules/`basename $repo .git`; done
+    && for repo in $TRIPAL_GIT_CLONE_MODULES; do \
+        repo_url=`echo $repo | sed 's/\(.\+\)\[@\w\+\]/\1/'`; \
+        rev=`echo $repo | sed 's/.\+\[@\(\w\+\)\]/\1/'`; \
+        module_name=`basename $repo_url .git`; \
+        git clone $repo_url /var/www/html/sites/all/modules/$module_name; \
+        if [ "$repo_url" != "$rev" ]; then \
+            cd /var/www/html/sites/all/modules/$module_name; \
+            git reset --hard $rev; \
+            cd /var/www/html/sites/all/modules/; \
+        fi; \
+    done
 
 RUN cd /var/www/html/sites/all/modules/views \
     && patch -p1 < ../tripal/tripal_views/views-sql-compliant-three-tier-naming-1971160-30.patch \

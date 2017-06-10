@@ -65,7 +65,7 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_DRUPAL_CACHE=1 \
     ENABLE_OP_CACHE=1\
     TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev"\
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@b8f1e7fe221814eb65d7093e7c732e52056b98ab] https://github.com/tripal/tripal_elasticsearch.git[@9e5580c564a03c97c6f2fa67700e791ac522dd4e] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git https://github.com/UofS-Pulse-Binfo/nd_genotypes.git https://github.com/UofS-Pulse-Binfo/genotypes_loader.git" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@f2a4f6d7a5ff17b6e259fa43493d3c37ec017b9c] https://github.com/tripal/tripal_elasticsearch.git[@9e5580c564a03c97c6f2fa67700e791ac522dd4e] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git https://github.com/UofS-Pulse-Binfo/nd_genotypes.git https://github.com/UofS-Pulse-Binfo/genotypes_loader.git" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api nd_genotypes genotypes_loader"
 

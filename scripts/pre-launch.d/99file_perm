@@ -5,6 +5,7 @@ chown -Rf www-data.www-data . || echo
 find . -type d -exec chmod -f ug=rx,o= '{}' \; || echo
 find . -type f -exec chmod -f ug=r,o= '{}' \; || echo
 
+mkdir -p private
 chmod ug=rwx,o= private
 find private -type d -exec chmod ug=rwx,o= '{}' \;
 find private -type f -exec chmod ug=rw,o= '{}' \;

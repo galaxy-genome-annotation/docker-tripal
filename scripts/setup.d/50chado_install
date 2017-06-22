@@ -1,7 +1,7 @@
 # Install the chado db
 
 export PGPASSWORD=$DB_PASS
-gunzip /chado-master-tripal.sql.gz
+gunzip -f /chado-master-tripal.sql.gz
 # Set the search path to something useful
 echo "alter database $DB_NAME set search_path = '$user',public,chado;" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME;
 psql -U $DB_USER -h $DB_HOST -p $DB_PORT $DB_NAME -f /chado-master-tripal.sql

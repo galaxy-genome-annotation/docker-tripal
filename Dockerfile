@@ -29,7 +29,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.0 tripal==1.9 \
+ && pip install chado==2.0 tripal==2.0 \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
 # && pecl install uploadprogress # not yet compatible with php7 on PECL

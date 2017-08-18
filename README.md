@@ -1,5 +1,6 @@
 # Tripal Docker Image
 
+[![Docker Automated build](https://img.shields.io/docker/automated/erasche/tripal.svg?style=flat-square)](https://hub.docker.com/erasche/tripal)
 [![DOI](https://zenodo.org/badge/10899/erasche/docker-tripal.svg)](https://zenodo.org/badge/latestdoi/10899/erasche/docker-tripal)
 
 ![Tripal Logo](http://tripal.info/sites/default/files/TripalLogo_dark.png)
@@ -117,10 +118,39 @@ If you want to get a specific git revision, you can use this syntax:
 ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@b8f1e7fe221814eb65d7093e7c732e52056b98ab]"
 ```
 
-## Tripal usage
+## Tripal jobs
 
-The container is configured (with cron) to launch Tripal jobs in queue every 2 minutes.
-The log of these jobs is available in the /var/log/tripal_jobs.log log file, which is emptied regularly.
+When loading data into Tripal, jobs or indexing tasks will be created inside the container.
+
+If you are using [Tripaille](https://github.com/abretaud/python-tripal) to load data, you have nothing specific to do, jobs will be launched automatically for you.
+
+If you don't use Tripaille, you will need to manually launch Tripal jobs or indexing tasks, as described in the Tripal documentation:
+
+```
+# Launch all jobs in queue
+docker-compose exec web "drush trp-run-jobs --username=admin"
+
+# Launch indexing tasks in all queues
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_0"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_1"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_2"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_3"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_4"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_5"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_6"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_7"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_8"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_9"
+```
+
+The container can also be configured to launch Tripal jobs automatically every 2 minutes using cron:
+
+```
+ENABLE_CRON_JOBS=1
+```
+
+The downside of this option is that cron will coninue to launch processes every 2 minutes, even when no jobs are scheduled, leading to a little more cpu usage every 2 minutes.
+The log of these jobs will be available in the /var/log/tripal_jobs.log and /var/log/tripal_cron.log log files.
 
 ## Data backup
 

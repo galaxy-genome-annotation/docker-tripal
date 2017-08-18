@@ -29,7 +29,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==1.2 tripal==1.7 \
+ && pip install chado==2.0 tripal==1.9 \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
 # && pecl install uploadprogress # not yet compatible with php7 on PECL
@@ -38,8 +38,8 @@ RUN apt-get -q update && \
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.54
-ENV DRUPAL_TARBALL_MD5=3068cbe488075ae166e23ea6cd29cf0f
+ENV DRUPAL_VERSION=7.56
+ENV DRUPAL_TARBALL_MD5=5d198f40f0f1cbf9cdf1bf3de842e534
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \
@@ -56,18 +56,27 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
  && drush cc drush \
  && mkdir /etc/drush && echo "<?php\n\$options['yes'] = TRUE;\n\$options['v'] = TRUE;\n" > /etc/drush/drushrc.php
 
-RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins90/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz \
+RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins110/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz \
     && wget --no-check-certificate https://drupal.org/files/drupal.pgsql-bytea.27.patch -O /drupal.pgsql-bytea.27.patch
 
 WORKDIR html
 
+# Install elasticsearch php library (required by tripal_elasticsearch)
+RUN cd /var/www/html/sites/all/libraries/\
+    && mkdir elasticsearch-php \
+    && cd elasticsearch-php \
+    && composer require "elasticsearch/elasticsearch:~5.0" \
+    && cd /var/www/html/
+
 ENV BASE_URL_PATH="/tripal" \
+    GALAXY_SHARED_DIR="/tripal-data/" \
     ENABLE_DRUPAL_CACHE=1 \
-    ENABLE_OP_CACHE=1\
-    TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev"\
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@f2a4f6d7a5ff17b6e259fa43493d3c37ec017b9c] https://github.com/tripal/tripal_elasticsearch.git[@9e5580c564a03c97c6f2fa67700e791ac522dd4e] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git https://github.com/UofS-Pulse-Binfo/nd_genotypes.git https://github.com/UofS-Pulse-Binfo/genotypes_loader.git" \
+    ENABLE_OP_CACHE=1 \
+    ENABLE_CRON_JOBS=0 \
+    TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@b620876b6d45f5f9e1a9b5fc4482776f9788f4d8] https://github.com/tripal/tripal_elasticsearch.git[@a0c918c84b4442d44eb601b120151020feda7a95] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
-    TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api nd_genotypes genotypes_loader"
+    TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api"
 
 # Pre download all default modules
 RUN drush pm-download ctools views libraries services ultimate_cron ${TRIPAL_BASE_MODULE} \

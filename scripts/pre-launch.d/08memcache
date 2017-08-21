@@ -1,0 +1,4 @@
+if [[ $ENABLE_MEMCACHE == "1" ]]
+then
+    service memcached start
+fi

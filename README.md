@@ -89,7 +89,11 @@ By default some caching is done for better performances. You can disable it with
 ```
 ENABLE_OP_CACHE: 0 # To disable the PHP opcache
 ENABLE_DRUPAL_CACHE: 0 # To disable Drupal built-in cache
+ENABLE_MEMCACHE: 0 # To disable caching using memcache (requires ENABLE_DRUPAL_CACHE=1)
 ```
+
+If ENABLE_DRUPAL_CACHE is enabled but ENABLE_MEMCACHE is not, Drupal will cache data into database.
+If both ENABLE_DRUPAL_CACHE and ENABLE_MEMCACHE are enabled, Drupal will cache data using memcache.
 
 ## Customizing the Image
 

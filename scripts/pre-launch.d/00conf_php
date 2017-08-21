@@ -11,3 +11,11 @@ then
 else
     echo "PHP OPcache disabled"
 fi
+
+if [[ $ENABLE_MEMCACHE == "1" ]]
+then
+    echo "Memcache enabled"
+    echo "extension=memcached.so" > $PHP_INI_DIR'/conf.d/memcached-status.ini'
+else
+    echo "Memcache disabled"
+fi

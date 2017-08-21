@@ -31,6 +31,14 @@ if (getenv('ENABLE_DRUPAL_CACHE') == "1") {
     $conf['block_cache'] = TRUE;
 }
 
+if (getenv('ENABLE_MEMCACHE') == "1") {
+    $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
+    $conf['cache_default_class'] = 'MemCacheDrupal';
+    $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+    $conf['page_cache_without_database'] = TRUE;
+    $conf['page_cache_invoke_hooks'] = FALSE;
+}
+
 if (getenv('BASE_URL'))
     // Use BASE_URL if defined by user
     $base_url = getenv('BASE_URL');

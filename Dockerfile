@@ -22,14 +22,16 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
     file libfreetype6 libjpeg62 libpng12-0 libpq-dev libx11-6 libxpm4 \
-    postgresql-client wget patch cron logrotate git nano python python-requests && \
-    BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libxpm-dev re2c zlib1g-dev python-pip python-dev libpq-dev"; \
+    postgresql-client wget patch cron logrotate git nano python python-requests \
+    memcached libmemcached11 libmemcachedutil2 && \
+    BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libxpm-dev re2c zlib1g-dev libmemcached-dev python-pip python-dev libpq-dev"; \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.0 tripal==2.0 \
+ && pip install chado==2.0 tripal==2.0.1 \
+ && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
 # && pecl install uploadprogress # not yet compatible with php7 on PECL
@@ -72,6 +74,7 @@ ENV BASE_URL_PATH="/tripal" \
     GALAXY_SHARED_DIR="/tripal-data/" \
     ENABLE_DRUPAL_CACHE=1 \
     ENABLE_OP_CACHE=1 \
+    ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
     TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev" \
     TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@b620876b6d45f5f9e1a9b5fc4482776f9788f4d8] https://github.com/tripal/tripal_elasticsearch.git[@a0c918c84b4442d44eb601b120151020feda7a95] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git" \
@@ -79,7 +82,7 @@ ENV BASE_URL_PATH="/tripal" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api"
 
 # Pre download all default modules
-RUN drush pm-download ctools views libraries services ultimate_cron ${TRIPAL_BASE_MODULE} \
+RUN drush pm-download ctools views libraries services ultimate_cron memcache ${TRIPAL_BASE_MODULE} \
     $TRIPAL_DOWNLOAD_MODULES \
     && for repo in $TRIPAL_GIT_CLONE_MODULES; do \
         repo_url=`echo $repo | sed 's/\(.\+\)\[@\w\+\]/\1/'`; \

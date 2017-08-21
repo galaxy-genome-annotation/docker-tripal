@@ -1,6 +1,6 @@
 # Tripal Docker Image
 
-[![Docker Automated build](https://img.shields.io/docker/automated/erasche/tripal.svg?style=flat-square)](https://hub.docker.com/erasche/tripal)
+[![Docker Automated build](https://img.shields.io/docker/automated/erasche/tripal.svg?style=flat-square)](https://hub.docker.com/r/erasche/tripal/)
 [![DOI](https://zenodo.org/badge/10899/erasche/docker-tripal.svg)](https://zenodo.org/badge/latestdoi/10899/erasche/docker-tripal)
 
 ![Tripal Logo](http://tripal.info/sites/default/files/TripalLogo_dark.png)

@@ -69,6 +69,11 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
     cd /var/www/html/
 fi
 
+if [[ $ENABLE_MEMCACHE == "1" ]]
+then
+    drush pm-enable memcache memcache_admin
+fi
+
 drush pm-enable ${TRIPAL_ENABLE_MODULES}
 
 # Launch any job automatically created while installing modules

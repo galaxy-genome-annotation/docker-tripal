@@ -9,7 +9,7 @@ if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
 
     echo "Could not find required base modules, reinstalling them in /var/www/html/sites/all/modules/"
 
-    drush pm-download ctools views libraries services ultimate_cron $TRIPAL_BASE_MODULE
+    drush pm-download ctools views libraries services ultimate_cron memcache $TRIPAL_BASE_MODULE
 
     # Patch views module
     cd /var/www/html/sites/all/modules/views
@@ -22,6 +22,11 @@ drush pm-enable ctools views views_ui libraries services
 drush pm-enable rest_server ultimate_cron
 drush pm-enable tripal_core
 drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature
+
+if [[ $ENABLE_MEMCACHE == "1" ]]
+then
+    drush pm-enable memcache memcache_admin
+fi
 
 # Make sure permissions are ok
 drush role-add-perm 'anonymous user' 'access chado_analysis content'
@@ -67,11 +72,6 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
         fi
     done
     cd /var/www/html/
-fi
-
-if [[ $ENABLE_MEMCACHE == "1" ]]
-then
-    drush pm-enable memcache memcache_admin
 fi
 
 drush pm-enable ${TRIPAL_ENABLE_MODULES}

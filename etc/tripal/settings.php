@@ -37,6 +37,9 @@ if (getenv('ENABLE_MEMCACHE') == "1") {
     $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
     $conf['page_cache_without_database'] = TRUE;
     $conf['page_cache_invoke_hooks'] = FALSE;
+
+    // Use memcache for locking mechanism of ultimate cron
+    $conf['ultimate_cron_class_lock'] = 'UltimateCronLockMemcache';
 }
 
 if (getenv('BASE_URL'))

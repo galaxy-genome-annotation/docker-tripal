@@ -135,16 +135,16 @@ If you don't use Tripaille, you will need to manually launch Tripal jobs or inde
 docker-compose exec web "drush trp-run-jobs --username=admin"
 
 # Launch indexing tasks in all queues
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_0"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_1"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_2"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_3"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_4"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_5"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_6"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_7"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_8"
-docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elastic_queue_9"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_0"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_1"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_2"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_3"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_4"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_5"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_6"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_7"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_8"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_9"
 ```
 
 The container can also be configured to launch Tripal jobs automatically every 2 minutes using cron:

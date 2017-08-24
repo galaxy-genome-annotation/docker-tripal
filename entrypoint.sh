@@ -86,7 +86,7 @@ fi
 
 # Check if tables are there and that drush works
 DB_LOADED=$(PGPASSWORD=$DB_PASS psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -tAc "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'organism');")
-DRUSH_OK=`drush pm-list > /dev/null 2>&1; echo "$?"`
+DRUSH_OK=`export ENABLE_MEMCACHE=0 && drush pm-list > /dev/null 2>&1; echo "$?"`
 if [[ $DRUSH_OK != "0" && $DB_LOADED != "t" ]]
 then
 	run_scripts setup
@@ -103,7 +103,7 @@ then
 elif [[ $DRUSH_OK != "0" && $DB_LOADED == "t" ]]
 then
 	echo "=> Error: 'drush pm-list' fails but the database is not empty. Something is wrong in the install. Exiting."
-    drush pm-list
+    export ENABLE_MEMCACHE=0 && drush pm-list
     exit $?
 else
 	echo "=> Skipped setup - database ${DB_NAME} already ready."

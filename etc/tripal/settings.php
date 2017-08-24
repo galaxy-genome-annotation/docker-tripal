@@ -38,8 +38,9 @@ if (getenv('ENABLE_MEMCACHE') == "1") {
     $conf['page_cache_without_database'] = TRUE;
     $conf['page_cache_invoke_hooks'] = FALSE;
 
-    // Use memcache for locking mechanism of ultimate cron
+    // Use memcache for locking mechanisms
     $conf['ultimate_cron_class_lock'] = 'UltimateCronLockMemcache';
+    $conf['lock_inc'] = 'sites/all/modules/memcache/memcache-lock.inc';
 }
 
 if (getenv('BASE_URL'))

@@ -25,7 +25,8 @@ drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis
 
 if [[ $ENABLE_MEMCACHE == "1" ]]
 then
-    drush pm-enable memcache
+    # This always returns an error, just ignore it, it will work.
+    drush pm-enable memcache || true
 fi
 
 # Make sure permissions are ok

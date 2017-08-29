@@ -31,7 +31,7 @@ if (getenv('ENABLE_DRUPAL_CACHE') == "1") {
     $conf['block_cache'] = TRUE;
 }
 
-if (getenv('ENABLE_MEMCACHE') == "1") {
+if (getenv('ENABLE_MEMCACHE') == "1" && file_exists($_SERVER{'DOCUMENT_ROOT'} . '/sites/all/modules/memcache/memcache.inc')) {
     $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
     $conf['cache_default_class'] = 'MemCacheDrupal';
     $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';

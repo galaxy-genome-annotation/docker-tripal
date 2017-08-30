@@ -30,7 +30,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.0.1 tripal==2.0.2 \
+ && pip install chado==2.0.1 tripal==2.0.3 \
  && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
@@ -77,7 +77,7 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
     TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev" \
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@ed2541e69c1acc9baa91c615c5c93d516f9eb7a4] https://github.com/tripal/tripal_elasticsearch.git[@bac9c5d35f4c38e906fe48f55064906af8ea029a] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@232f46df27e9279a71d47bf5346174fecb342758] https://github.com/tripal/tripal_elasticsearch.git[@bac9c5d35f4c38e906fe48f55064906af8ea029a] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api"
 

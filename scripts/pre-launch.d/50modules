@@ -13,15 +13,15 @@ if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
 
     # Patch views module
     cd /var/www/html/sites/all/modules/views
-    patch -p1 < ../tripal/tripal_views/views-sql-compliant-three-tier-naming-1971160-30.patch
+    patch -p1 < ../tripal/tripal_chado_views/views-sql-compliant-three-tier-naming-1971160-30.patch
     cd /var/www/html/
 fi
 
 # Make sure all required modules are enabled
-drush pm-enable ctools views views_ui libraries services
+drush pm-enable entity ctools views views_ui libraries services
+drush pm-enable ds field_group field_group_table field_formatter_class field_formatter_settings
 drush pm-enable rest_server ultimate_cron
-drush pm-enable tripal_core
-drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature
+drush pm-enable tripal tripal_chado tripal_ds tripal_ws
 
 if [[ $ENABLE_MEMCACHE == "1" ]]
 then
@@ -30,13 +30,8 @@ then
 fi
 
 # Make sure permissions are ok
-drush role-add-perm 'anonymous user' 'access chado_analysis content'
-drush role-add-perm 'anonymous user' 'access chado_feature content'
-drush role-add-perm 'anonymous user' 'access chado_organism content'
-drush role-add-perm 'authenticated user' 'access chado_analysis content'
-drush role-add-perm 'authenticated user' 'access chado_feature content'
-drush role-add-perm 'authenticated user' 'access chado_organism content'
 
+ADMIN_USER=${ADMIN_USER} drush --include=/etc/tripal/ tripal-docker-install
 
 # Install additional modules
 # We don't want to overwrite existing modules to avoid unexpected changes in module code

@@ -77,12 +77,8 @@ drush trp-run-jobs --username=${ADMIN_USER}
 
 
 # Make sure module permissions are ok too (if modules are installed)
-drush role-add-perm 'anonymous user' 'access chado_analysis_go content' || true
-drush role-add-perm 'anonymous user' 'access chado_analysis_blast content' || true
-drush role-add-perm 'anonymous user' 'access chado_analysis_interpro content' || true
-drush role-add-perm 'authenticated user' 'access chado_analysis_go content' || true
-drush role-add-perm 'authenticated user' 'access chado_analysis_blast content' || true
-drush role-add-perm 'authenticated user' 'access chado_analysis_interpro content' || true
+drush role-add-perm 'anonymous user' 'access chado_analysis_go content,access chado_analysis_blast content,access chado_analysis_interpro content' || true
+drush role-add-perm 'authenticated user' 'access chado_analysis_go content,access chado_analysis_blast content,access chado_analysis_interpro content' || true
 
 
 # Install additional themes

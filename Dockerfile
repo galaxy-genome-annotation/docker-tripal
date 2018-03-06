@@ -1,12 +1,31 @@
-FROM php:apache
+FROM php:7.2-apache
 MAINTAINER Eric Rasche <esr@tamu.edu>
+
+# Install packages and PHP-extensions
+RUN apt-get -q update && \
+    mkdir -p /usr/share/man/man1 /usr/share/man/man7 && \
+    DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
+    file libfreetype6 libjpeg62 libpng16-16 libpq-dev libx11-6 libxpm4 \
+    postgresql-client wget patch cron logrotate git nano python python-requests python-setuptools \
+    memcached libmemcached11 libmemcachedutil2 gpg dirmngr && \
+    BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev re2c zlib1g-dev libmemcached-dev python-pip python-dev libpq-dev"; \
+    DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install $BUILD_DEPS \
+ && docker-php-ext-configure gd \
+        --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
+        --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
+ && docker-php-ext-install gd mbstring pdo_pgsql zip \
+ && pip install chado==2.1 tripal==2.0.3 \
+ && pecl install memcached \
+ && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
+ && rm -rf /var/lib/apt/lists/*
+# && pecl install uploadprogress # not yet compatible with php7 on PECL
 
 ENV TINI_VERSION v0.9.0
 RUN set -x \
     && curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini" -o /usr/local/bin/tini \
     && curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o /usr/local/bin/tini.asc \
     && export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
+    && gpg --keyserver pgp.mit.edu --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
     && gpg --batch --verify /usr/local/bin/tini.asc /usr/local/bin/tini \
     && rm -r "$GNUPGHOME" /usr/local/bin/tini.asc \
     && chmod +x /usr/local/bin/tini
@@ -17,24 +36,6 @@ ENTRYPOINT ["/usr/local/bin/tini", "--"]
 RUN ln -s /var/www/html /app
 # Update apache2 configuration for drupal
 RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
-
-# Install packages and PHP-extensions
-RUN apt-get -q update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
-    file libfreetype6 libjpeg62 libpng12-0 libpq-dev libx11-6 libxpm4 \
-    postgresql-client wget patch cron logrotate git nano python python-requests \
-    memcached libmemcached11 libmemcachedutil2 && \
-    BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng12-dev libxpm-dev re2c zlib1g-dev libmemcached-dev python-pip python-dev libpq-dev"; \
-    DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install $BUILD_DEPS \
- && docker-php-ext-configure gd \
-        --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
-        --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
- && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.0.1 tripal==2.0.3 \
- && pecl install memcached \
- && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
- && rm -rf /var/lib/apt/lists/*
-# && pecl install uploadprogress # not yet compatible with php7 on PECL
 
 # Compile a php7 compatible version of uploadprogress module
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /

@@ -119,7 +119,7 @@ ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git ht
 If you want to get a specific git revision, you can use this syntax:
 
 ```
-ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@8fe9b4d48c2ca4310658ab0fb48f6af2bf5b3bcd]"
+ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@f23abf4fbc57fce3eb93acc520087881009e71d3]"
 ```
 
 ## Tripal jobs

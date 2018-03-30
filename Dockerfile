@@ -14,7 +14,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.1 tripal==2.0.3 \
+ && pip install chado==2.1.1 tripal==2.0.4 \
  && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
@@ -27,7 +27,7 @@ RUN set -x \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --keyserver pgp.mit.edu --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
     && gpg --batch --verify /usr/local/bin/tini.asc /usr/local/bin/tini \
-    && rm -r "$GNUPGHOME" /usr/local/bin/tini.asc \
+    && rm -rf "$GNUPGHOME" /usr/local/bin/tini.asc \
     && chmod +x /usr/local/bin/tini
 
 ENTRYPOINT ["/usr/local/bin/tini", "--"]
@@ -41,8 +41,8 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.56
-ENV DRUPAL_TARBALL_MD5=5d198f40f0f1cbf9cdf1bf3de842e534
+ENV DRUPAL_VERSION=7.58
+ENV DRUPAL_TARBALL_MD5=c59949bcfd0d68b4f272bc05a91d4dc6
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \

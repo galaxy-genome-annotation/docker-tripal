@@ -14,10 +14,11 @@ if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
     repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`
     rev=`echo $TRIPAL_BASE_CODE_GIT | sed 's/.\+\[@\(\w\+\)\]/\1/'`
     git clone $repo_url tripal
+    cd tripal
     if [ "$repo_url" != "$rev" ]; then
-        cd tripal
         git reset --hard $rev
     fi
+    patch -p1 < /opt/tripal/PR335.diff
     cd /var/www/html/
 
     # Fetch the other modules from drupal.org

@@ -83,6 +83,8 @@ ENV BASE_URL_PATH="/tripal" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api"
 
 # Fetch the tripal code from github repo (drupal.org repo is often outdated)
+ADD PR335.diff /opt/tripal/PR335.diff
+
 RUN repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`; \
     rev=`echo $TRIPAL_BASE_CODE_GIT | sed 's/.\+\[@\(\w\+\)\]/\1/'`; \
     git clone $repo_url /var/www/html/sites/all/modules/tripal; \
@@ -91,6 +93,10 @@ RUN repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`; \
         git reset --hard $rev; \
         cd /var/www/html/; \
     fi;
+
+RUN cd /var/www/html/sites/all/modules/tripal \
+    && patch -p1 < /opt/tripal/PR335.diff \
+    && cd /var/www/html/
 
 # Pre download all default modules
 RUN drush pm-download entity ctools views libraries services ds field_group field_group_table field_formatter_class field_formatter_settings \

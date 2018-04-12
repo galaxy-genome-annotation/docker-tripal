@@ -78,8 +78,8 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
     TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@ee1868092be9322b2fa4feb34db90e481d7409d0]" \
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@f23abf4fbc57fce3eb93acc520087881009e71d3] https://github.com/tripal/tripal_elasticsearch.git[@bac9c5d35f4c38e906fe48f55064906af8ea029a] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git" \
-    TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@f23abf4fbc57fce3eb93acc520087881009e71d3] https://github.com/tripal/tripal_elasticsearch.git[@bac9c5d35f4c38e906fe48f55064906af8ea029a] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git https://github.com/tripal/tripal_analysis_blast.git[@9086ea50be57ac6f4058e090d46d7271f9361aeb] https://github.com/tripal/tripal_analysis_interpro.git[@c4a123e2d033f5d849350d67ac1f4ff707c932ad] https://github.com/tripal/tripal_analysis_go.git[@af5fc31bc49405aa3ebc024596bd6486d535841e]" \
+    TRIPAL_DOWNLOAD_MODULES="queue_ui" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api"
 
 # Fetch the tripal code from github repo (drupal.org repo is often outdated)

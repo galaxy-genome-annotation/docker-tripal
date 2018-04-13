@@ -77,13 +77,10 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_OP_CACHE=1 \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
-    TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@ee1868092be9322b2fa4feb34db90e481d7409d0]" \
+    TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@a98e03f0e4b357c67d8b44b7b5c4ce75cac1cf51]" \
     TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@f23abf4fbc57fce3eb93acc520087881009e71d3] https://github.com/tripal/tripal_elasticsearch.git[@bac9c5d35f4c38e906fe48f55064906af8ea029a] https://github.com/tripal/tripal_analysis_expression.git https://github.com/tripal/trpdownload_api.git https://github.com/abretaud/tripal_analysis_blast.git[@ec3e669f4794b56ed45bd78ff583d532a50c1233] https://github.com/tripal/tripal_analysis_interpro.git[@c4a123e2d033f5d849350d67ac1f4ff707c932ad] https://github.com/tripal/tripal_analysis_go.git[@af5fc31bc49405aa3ebc024596bd6486d535841e]" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression trpdownload_api"
-
-# Fetch the tripal code from github repo (drupal.org repo is often outdated)
-ADD PR335.diff /opt/tripal/PR335.diff
 
 RUN repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`; \
     rev=`echo $TRIPAL_BASE_CODE_GIT | sed 's/.\+\[@\(\w\+\)\]/\1/'`; \
@@ -93,10 +90,6 @@ RUN repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`; \
         git reset --hard $rev; \
         cd /var/www/html/; \
     fi;
-
-RUN cd /var/www/html/sites/all/modules/tripal \
-    && patch -p1 < /opt/tripal/PR335.diff \
-    && cd /var/www/html/
 
 # Pre download all default modules
 RUN drush pm-download entity ctools views libraries services ds field_group field_group_table field_formatter_class field_formatter_settings \

@@ -18,7 +18,6 @@ if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
     if [ "$repo_url" != "$rev" ]; then
         git reset --hard $rev
     fi
-    patch -p1 < /opt/tripal/PR335.diff
     cd /var/www/html/
 
     # Fetch the other modules from drupal.org

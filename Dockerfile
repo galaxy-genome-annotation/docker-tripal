@@ -14,7 +14,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.1.1 tripal==2.0.4 \
+ && pip install chado==2.1.1 tripal==3.0 \
  && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
@@ -26,6 +26,7 @@ RUN set -x \
     && curl -fSL "https://github.com/krallin/tini/releases/download/$TINI_VERSION/tini.asc" -o /usr/local/bin/tini.asc \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
+    || gpg --keyserver pgp.mit.edu --recv-keys 6380DC428747F6C393FEACA59A84159D7001A4E5 \
     && gpg --batch --verify /usr/local/bin/tini.asc /usr/local/bin/tini \
     && rm -rf "$GNUPGHOME" /usr/local/bin/tini.asc \
     && chmod +x /usr/local/bin/tini
@@ -77,10 +78,19 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_OP_CACHE=1 \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
-    TRIPAL_BASE_MODULE="tripal-7.x-2.x-dev" \
+    TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@267a3dbe09c2d51f1ba0e6af94a0617a113709fb]" \
     TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@f23abf4fbc57fce3eb93acc520087881009e71d3] https://github.com/tripal/tripal_elasticsearch.git[@bac9c5d35f4c38e906fe48f55064906af8ea029a] https://github.com/tripal/trpdownload_api.git" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch trpdownload_api"
+
+RUN repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`; \
+    rev=`echo $TRIPAL_BASE_CODE_GIT | sed 's/.\+\[@\(\w\+\)\]/\1/'`; \
+    git clone $repo_url /var/www/html/sites/all/modules/tripal; \
+    if [ "$repo_url" != "$rev" ]; then \
+        cd /var/www/html/sites/all/modules/tripal; \
+        git reset --hard $rev; \
+        cd /var/www/html/; \
+    fi;
 
 # Pre download all default modules
 RUN drush pm-download ctools views libraries services ultimate_cron memcache ${TRIPAL_BASE_MODULE} \

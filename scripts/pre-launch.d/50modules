@@ -5,11 +5,23 @@ cd /var/www/html/
 if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
     # If no module is present in module dir, it (probably) means we are mounting an empty dir
     # Make sure mandatory modules are installed there
-    # No real download will be done, tarballs are cached by drush when building the image
+    # No real download from drupal.org will be done, tarballs are cached by drush when building the image
 
     echo "Could not find required base modules, reinstalling them in /var/www/html/sites/all/modules/"
 
-    drush pm-download ctools views libraries services ultimate_cron memcache $TRIPAL_BASE_MODULE
+    # Fetch the tripal code from github repo (drupal.org repo is often outdated)
+    cd /var/www/html/sites/all/modules/
+    repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`
+    rev=`echo $TRIPAL_BASE_CODE_GIT | sed 's/.\+\[@\(\w\+\)\]/\1/'`
+    git clone $repo_url tripal
+    cd tripal
+    if [ "$repo_url" != "$rev" ]; then
+        git reset --hard $rev
+    fi
+    cd /var/www/html/
+
+    # Fetch the other modules from drupal.org
+    drush pm-download ctools views libraries services ultimate_cron memcache
 
     # Patch views module
     cd /var/www/html/sites/all/modules/views

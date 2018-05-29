@@ -1,0 +1,129 @@
+# This script will ensure all required modules are installed and enabled
+
+cd /var/www/html/
+
+if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
+    # If no module is present in module dir, it (probably) means we are mounting an empty dir
+    # Make sure mandatory modules are installed there
+    # No real download from drupal.org will be done, tarballs are cached by drush when building the image
+
+    echo "Could not find required base modules, reinstalling them in /var/www/html/sites/all/modules/"
+
+    # Fetch the tripal code from github repo (drupal.org repo is often outdated)
+    cd /var/www/html/sites/all/modules/
+    repo_url=`echo $TRIPAL_BASE_CODE_GIT | sed 's/\(.\+\)\[@\w\+\]/\1/'`
+    rev=`echo $TRIPAL_BASE_CODE_GIT | sed 's/.\+\[@\(\w\+\)\]/\1/'`
+    git clone $repo_url tripal
+    cd tripal
+    if [ "$repo_url" != "$rev" ]; then
+        git reset --hard $rev
+    fi
+    cd /var/www/html/
+
+    # Fetch the other modules from drupal.org
+    drush pm-download ctools views libraries services ultimate_cron memcache
+
+    # Patch views module
+    cd /var/www/html/sites/all/modules/views
+    patch -p1 < ../tripal/tripal_views/views-sql-compliant-three-tier-naming-1971160-30.patch
+    cd /var/www/html/
+fi
+
+# Make sure all required modules are enabled
+drush pm-enable ctools views views_ui libraries services
+drush pm-enable rest_server ultimate_cron
+drush pm-enable tripal_core
+drush pm-enable tripal_views tripal_db tripal_cv tripal_organism tripal_analysis tripal_feature
+
+if [[ $ENABLE_MEMCACHE == "1" ]]
+then
+    # This always returns an error, just ignore it, it will work.
+    drush pm-enable memcache || true
+fi
+
+# Make sure permissions are ok
+drush role-add-perm 'anonymous user' 'access chado_analysis content'
+drush role-add-perm 'anonymous user' 'access chado_feature content'
+drush role-add-perm 'anonymous user' 'access chado_organism content'
+drush role-add-perm 'authenticated user' 'access chado_analysis content'
+drush role-add-perm 'authenticated user' 'access chado_feature content'
+drush role-add-perm 'authenticated user' 'access chado_organism content'
+
+
+# Install additional modules
+# We don't want to overwrite existing modules to avoid unexpected changes in module code
+
+# Temporary disable default settings to allow usage of --no option
+if [ -f /etc/drush/drushrc.php ]; then
+    mv /etc/drush/drushrc.php /etc/drush/drushrc.php_back
+fi
+
+if [ ! -z "$TRIPAL_DOWNLOAD_MODULES" ]; then
+    drush pm-download --no ${TRIPAL_DOWNLOAD_MODULES}
+fi
+
+if [ -f /etc/drush/drushrc.php_back ]; then
+    mv /etc/drush/drushrc.php_back /etc/drush/drushrc.php
+fi
+
+
+if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
+    cd /var/www/html/sites/all/modules/
+    for repo in $TRIPAL_GIT_CLONE_MODULES; do
+        repo_url=`echo $repo | sed 's/\(.\+\)\[@\w\+\]/\1/'`
+        rev=`echo $repo | sed 's/.\+\[@\(\w\+\)\]/\1/'`
+        module_name=`basename $repo_url .git`
+        if [ -d "$module_name" ]; then
+            echo "Skipping git clone of module $module_name from $repo_url, $module_name already exists in /var/www/html/sites/all/modules/$module_name"
+        else
+            git clone $repo_url
+            if [ "$repo_url" != "$rev" ]; then
+                cd "$module_name"
+                git reset --hard $rev
+                cd /var/www/html/sites/all/modules/
+            fi
+        fi
+    done
+    cd /var/www/html/
+fi
+
+drush pm-enable ${TRIPAL_ENABLE_MODULES}
+
+# Launch any job automatically created while installing modules
+drush trp-run-jobs --username=${ADMIN_USER}
+
+
+# Make sure module permissions are ok too (if modules are installed)
+drush role-add-perm 'anonymous user' 'access chado_analysis_go content' || true
+drush role-add-perm 'anonymous user' 'access chado_analysis_blast content' || true
+drush role-add-perm 'anonymous user' 'access chado_analysis_interpro content' || true
+drush role-add-perm 'authenticated user' 'access chado_analysis_go content' || true
+drush role-add-perm 'authenticated user' 'access chado_analysis_blast content' || true
+drush role-add-perm 'authenticated user' 'access chado_analysis_interpro content' || true
+
+
+# Install additional themes
+
+if [ ! -z "$THEME_GIT_CLONE" ]; then
+    cd /var/www/html/sites/all/themes/
+    for repo in $THEME_GIT_CLONE; do
+        theme_name=`basename $repo .git`
+        if [ -d "$theme_name" ]; then
+            echo "Skipping git clone of theme $theme_name from $repo, $theme_name already exists in /var/www/html/sites/all/themes/$theme_name"
+        else
+            git clone $repo
+        fi
+    done
+    cd /var/www/html/
+fi
+
+if [ ! -z "$THEME" ]; then
+    # Activate the theme
+    drush pm-enable "$THEME"
+    drush vset theme_default "$THEME"
+fi
+
+
+
+# Clear cache
+drush cc all

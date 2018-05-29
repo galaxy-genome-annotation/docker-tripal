@@ -69,10 +69,24 @@ fi
 
 
 ### Initial setup if database doesn't exist
+if [ "$(PGPASSWORD=$DB_PASS psql -U $DB_USER -h $DB_HOST -p $DB_PORT postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" )" != '1' ]
+then
+    echo "Database $DB_NAME does not exist, creating it"
+    echo "CREATE DATABASE $DB_NAME;" | psql -U $DB_USER -h $DB_HOST -p $DB_PORT postgres;
+fi
+
+# Add possibly missing files/dirs if sites dir is empty (files needed by drush pm-list)
+if [ ! -e /var/www/html/sites/default ]; then
+    mkdir -p /var/www/html/sites/default/
+fi
+
+if [ ! -e /var/www/html/sites/default/settings.php ]; then
+    cp /etc/tripal/settings.php /var/www/html/sites/default/settings.php
+fi
 
 # Check if tables are there and that drush works
 DB_LOADED=$(PGPASSWORD=$DB_PASS psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -tAc "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'organism');")
-DRUSH_OK=`drush pm-list > /dev/null 2>&1; echo "$?"`
+DRUSH_OK=`export ENABLE_MEMCACHE=0 && drush pm-list > /dev/null 2>&1; echo "$?"`
 if [[ $DRUSH_OK != "0" && $DB_LOADED != "t" ]]
 then
 	run_scripts setup
@@ -89,10 +103,10 @@ then
 elif [[ $DRUSH_OK != "0" && $DB_LOADED == "t" ]]
 then
 	echo "=> Error: 'drush pm-list' fails but the database is not empty. Something is wrong in the install. Exiting."
-    drush pm-list
+    export ENABLE_MEMCACHE=0 && drush pm-list
     exit $?
 else
-	echo "=> Skipped setup - database ${DB_NAME} already exists."
+	echo "=> Skipped setup - database ${DB_NAME} already ready."
 fi
 
 

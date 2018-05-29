@@ -1,10 +1,11 @@
 prev_dir=$(pwd)
 
 cd /var/www
-chown -R www-data.www-data .
-find . -type d -exec chmod ug=rx,o= '{}' \;
-find . -type f -exec chmod ug=r,o= '{}' \;
+chown -Rf www-data.www-data . || echo
+find . -type d -exec chmod -f ug=rx,o= '{}' \; || echo
+find . -type f -exec chmod -f ug=r,o= '{}' \; || echo
 
+mkdir -p private
 chmod ug=rwx,o= private
 find private -type d -exec chmod ug=rwx,o= '{}' \;
 find private -type f -exec chmod ug=rw,o= '{}' \;

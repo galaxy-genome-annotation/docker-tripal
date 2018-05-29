@@ -1,1 +1,3 @@
 /usr/bin/env PHP_OPTIONS="-d sendmail_path=$(which true)" drush site-install --site-name=default --account-name="${ADMIN_USER}" --account-pass="${ADMIN_PASSWORD}"
+
+patch -p1 < /drupal.pgsql-bytea.27.patch

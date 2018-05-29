@@ -1,0 +1,20 @@
+# This script will ensure all required modules are installed and enabled
+
+cd /var/www/html/
+
+if [[ ! $(ls -A /var/www/html/sites/all/libraries/) ]]; then
+    # If no library is present in libraries dir, it (probably) means we are mounting an empty dir
+    # Make sure mandatory libraries are installed there
+
+    echo "Could not find required external libraries, reinstalling them in /var/www/html/sites/all/libraries/"
+
+    cd /var/www/html/sites/all/libraries/
+
+    mkdir elasticsearch-php
+
+    cd elasticsearch-php
+
+    composer require "elasticsearch/elasticsearch:~5.0"
+
+    cd /var/www/html/
+fi

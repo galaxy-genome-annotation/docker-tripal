@@ -1,10 +1,11 @@
 # Tripal Docker Image
 
+[![Docker Automated build](https://img.shields.io/docker/automated/erasche/tripal.svg?style=flat-square)](https://hub.docker.com/r/erasche/tripal/)
 [![DOI](https://zenodo.org/badge/10899/erasche/docker-tripal.svg)](https://zenodo.org/badge/latestdoi/10899/erasche/docker-tripal)
 
 ![Tripal Logo](http://tripal.info/sites/default/files/TripalLogo_dark.png)
 
-This image contains a ready-to-go installation of Tripal v2.1.
+This image contains a ready-to-go installation of Tripal v2.x.
 
 ## Using the Container
 
@@ -40,7 +41,7 @@ services:
     ports:
       - "3000:80"
   db:
-    image: erasche/chado:1.31-jenkins97-pg9.5
+    image: erasche/chado
     environment:
       - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,
@@ -88,7 +89,11 @@ By default some caching is done for better performances. You can disable it with
 ```
 ENABLE_OP_CACHE: 0 # To disable the PHP opcache
 ENABLE_DRUPAL_CACHE: 0 # To disable Drupal built-in cache
+ENABLE_MEMCACHE: 0 # To disable caching using memcache (requires ENABLE_DRUPAL_CACHE=1)
 ```
+
+If ENABLE_DRUPAL_CACHE is enabled but ENABLE_MEMCACHE is not, Drupal will cache data into database.
+If both ENABLE_DRUPAL_CACHE and ENABLE_MEMCACHE are enabled, Drupal will cache data using memcache.
 
 ## Customizing the Image
 
@@ -111,10 +116,45 @@ If you need to install a module that is not hosted on http://www.drupal.org, you
 ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git https://github.com/tripal/tripal_analysis_expression.git"
 ```
 
-## Tripal usage
+If you want to get a specific git revision, you can use this syntax:
 
-The container is configured (with cron) to launch Tripal jobs in queue every 2 minutes.
-The log of these jobs is available in the /var/log/tripal_jobs.log log file, which is emptied regularly.
+```
+ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@cb1d52ffed0b8a5c1ac189b41c729c8ad93b1c21]"
+```
+
+## Tripal jobs
+
+When loading data into Tripal, jobs or indexing tasks will be created inside the container.
+
+If you are using [Tripaille](https://github.com/abretaud/python-tripal) to load data, you have nothing specific to do, jobs will be launched automatically for you.
+
+If you don't use Tripaille, you will need to manually launch Tripal jobs or indexing tasks, as described in the Tripal documentation:
+
+```
+# Launch all jobs in queue
+docker-compose exec web "drush trp-run-jobs --username=admin"
+
+# Launch indexing tasks in all queues
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_0"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_1"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_2"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_3"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_4"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_5"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_6"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_7"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_8"
+docker-compose exec web "export BASE_URL=http://localhost/ && /usr/local/bin/drush cron-run queue_elasticsearch_queue_9"
+```
+
+The container can also be configured to launch Tripal jobs automatically every 2 minutes using cron:
+
+```
+ENABLE_CRON_JOBS=1
+```
+
+The downside of this option is that cron will coninue to launch processes every 2 minutes, even when no jobs are scheduled, leading to a little more cpu usage every 2 minutes.
+The log of these jobs will be available in the /var/log/tripal_jobs.log and /var/log/tripal_cron.log log files.
 
 ## Data backup
 
@@ -131,7 +171,7 @@ services:
       - ./your/backed/up/dir/tripal_private:/var/www/private
       [...]
   db:
-    image: erasche/chado:latest
+    image: erasche/chado
     [...]
     volumes:
       - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/data/

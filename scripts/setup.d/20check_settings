@@ -14,5 +14,5 @@ if [ ! -e /var/www/html/sites/default/settings.php ]; then
     cp /etc/tripal/settings.php /var/www/html/sites/default/settings.php
 fi
 
-chown -R www-data.www-data /var/www/html/sites
-chown -R www-data.www-data /var/www/private
+chown -Rf www-data.www-data /var/www/html/sites || echo
+chown -Rf www-data.www-data /var/www/private || echo

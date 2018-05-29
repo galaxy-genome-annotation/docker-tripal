@@ -21,7 +21,7 @@ $conf['mail_system'] = ['default-system' => 'TestingMailSystem'];
 /**
  * Default elasticsearch host
  */
-$conf['elasticsearch_hosts'] = array('elasticsearch');
+$conf['elasticsearch_host'] = 'elasticsearch';
 
 /**
  * Caching
@@ -29,6 +29,18 @@ $conf['elasticsearch_hosts'] = array('elasticsearch');
 if (getenv('ENABLE_DRUPAL_CACHE') == "1") {
     $conf['cache'] = TRUE;
     $conf['block_cache'] = TRUE;
+}
+
+if (getenv('ENABLE_MEMCACHE') == "1" && file_exists($_SERVER{'DOCUMENT_ROOT'} . '/sites/all/modules/memcache/memcache.inc')) {
+    $conf['cache_backends'][] = 'sites/all/modules/memcache/memcache.inc';
+    $conf['cache_default_class'] = 'MemCacheDrupal';
+    $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+    $conf['page_cache_without_database'] = TRUE;
+    $conf['page_cache_invoke_hooks'] = FALSE;
+
+    // Use memcache for locking mechanisms
+    $conf['ultimate_cron_class_lock'] = 'UltimateCronLockMemcache';
+    $conf['lock_inc'] = 'sites/all/modules/memcache/memcache-lock.inc';
 }
 
 if (getenv('BASE_URL'))

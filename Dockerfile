@@ -1,5 +1,4 @@
 FROM php:apache
-MAINTAINER Eric Rasche <esr@tamu.edu>
 
 ENV TINI_VERSION v0.9.0
 RUN set -x \

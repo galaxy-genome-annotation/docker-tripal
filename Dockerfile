@@ -1,4 +1,4 @@
-FROM php:7.2-apache
+FROM php:7.1-apache
 
 # Install packages and PHP-extensions
 RUN apt-get -q update && \

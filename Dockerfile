@@ -5,9 +5,9 @@ MAINTAINER Eric Rasche <esr@tamu.edu>
 RUN apt-get -q update && \
     mkdir -p /usr/share/man/man1 /usr/share/man/man7 && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
-    file libfreetype6 libjpeg62 libpng12-0 libpq-dev libx11-6 libxpm4 \
+    file libfreetype6 libjpeg62 libpng16-16 libpq-dev libx11-6 libxpm4 \
     postgresql-client wget patch cron logrotate git nano python python-requests python-setuptools \
-    memcached libmemcached11 libmemcachedutil2 gnupg dirmngr ca-certificates && \
+    memcached libmemcached11 libmemcachedutil2 gpg dirmngr ca-certificates && \
     BUILD_DEPS="libfreetype6-dev libjpeg62-turbo-dev libmcrypt-dev libpng-dev libxpm-dev re2c zlib1g-dev libmemcached-dev python-pip python-dev libpq-dev"; \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install $BUILD_DEPS \
  && docker-php-ext-configure gd \

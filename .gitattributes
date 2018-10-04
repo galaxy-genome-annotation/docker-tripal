@@ -12,5 +12,5 @@ scripts/pre-launch.d/* text eol=lf
 scripts/setup.d/* text eol=lf
 *.diff text eol=lf
 *.sql text eol=lf
-*.conf
-*.inc
+*.conf text eol=lf
+*.inc text eol=lf

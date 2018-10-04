@@ -1,3 +1,8 @@
+#
+# Specifying gitattrubutes since Docker generally needs LF not CRLF in its files
+# but Windows IDE's may overwrite these with CRLF during checkout, then creating
+# some peculiar practical Linux runtime errors in the Docker containers.
+#
 # Declare files that will always have LF line endings on checkout.
 *.sh text eol=lf
 *.ini text eol=lf

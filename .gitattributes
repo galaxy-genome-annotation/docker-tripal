@@ -1,0 +1,11 @@
+# Declare files that will always have LF line endings on checkout.
+*.sh text eol=lf
+*.ini text eol=lf
+*.php text eol=lf
+logrotate.d/* text eol=lf
+scripts/pre-launch.d/* text eol=lf
+scripts/setup.d/* text eol=lf
+*.diff text eol=lf
+*.sql text eol=lf
+*.conf
+*.inc

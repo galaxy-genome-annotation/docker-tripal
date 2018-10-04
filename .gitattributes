@@ -1,5 +1,5 @@
 #
-# Specifying gitattrubutes since Docker generally needs LF not CRLF in its files
+# Specifying gitattributes since Docker generally needs LF not CRLF in its files
 # but Windows IDE's may overwrite these with CRLF during checkout, then creating
 # some peculiar practical Linux runtime errors in the Docker containers.
 #

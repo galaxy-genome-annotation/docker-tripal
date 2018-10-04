@@ -4,7 +4,7 @@ version: '2'
 services:
 
     web:
-      image: erasche/tripal:latest
+      image: quay.io/erasche/tripal:master
       links:
         - db:postgres
         - elasticsearch:elasticsearch

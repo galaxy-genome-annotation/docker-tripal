@@ -1,0 +1,16 @@
+#
+# Specifying gitattributes since Docker generally needs LF not CRLF in its files
+# but Windows IDE's may overwrite these with CRLF during checkout, then creating
+# some peculiar practical Linux runtime errors in the Docker containers.
+#
+# Declare files that will always have LF line endings on checkout.
+*.sh text eol=lf
+*.ini text eol=lf
+*.php text eol=lf
+logrotate.d/* text eol=lf
+scripts/pre-launch.d/* text eol=lf
+scripts/setup.d/* text eol=lf
+*.diff text eol=lf
+*.sql text eol=lf
+*.conf text eol=lf
+*.inc text eol=lf

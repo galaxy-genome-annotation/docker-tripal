@@ -33,4 +33,6 @@ services:
         - /var/lib/postgresql/data/
 
     elasticsearch:
-      image: elasticsearch
+      image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+      environment:
+        TAKE_FILE_OWNERSHIP: "true"

@@ -1,13 +1,10 @@
 # This is a sample configuration to run a Tripal instance with Docker-Compose.
 
-version: '2'
+version: '3'
 services:
 
     web:
       image: quay.io/erasche/tripal:v3.x
-      links:
-        - db:postgres
-        - elasticsearch:elasticsearch
       volumes:
         - /var/www/html/sites
         - /var/www/private
@@ -19,6 +16,11 @@ services:
         DB_NAME: 'postgres'
       ports:
         - "3000:80"
+      depends_on:
+      - db
+      - elasticsearch
+      networks:
+      - default
 
     db:
       image: erasche/chado:1.31-jenkins97-pg9.5
@@ -31,8 +33,16 @@ services:
         - PGDATA=/var/lib/postgresql/data/
       volumes:
         - /var/lib/postgresql/data/
+      networks:
+        default:
+          aliases:
+          - postgres
 
     elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
       environment:
         TAKE_FILE_OWNERSHIP: "true"
+
+networks:
+  default:
+    driver: bridge

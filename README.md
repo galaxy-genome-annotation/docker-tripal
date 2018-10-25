@@ -221,8 +221,8 @@ ENV ADMIN_PASSWORD changeme
 
 ## Contributing
 
-Please submit all issues and pull requests to the [erasche/docker-tripal](http://github.com/erasche/docker-tripal) repository.
+Please submit all issues and pull requests to the [galaxy-genome-annotation/docker-tripal](http://github.com/galaxy-genome-annotation/docker-tripal) repository.
 
 ## Support
 
-If you have any problem or suggestion please open an issue [here](https://github.com/erasche/docker-tripal/issues).
+If you have any problem or suggestion please open an issue [here](https://github.com/galaxy-genome-annotation/docker-tripal/issues).

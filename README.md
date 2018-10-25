@@ -1,6 +1,6 @@
 # Tripal Docker Image
 
-[![Docker Repository on Quay](https://quay.io/repository/erasche/tripal/status "Docker Repository on Quay")](https://quay.io/repository/erasche/tripal)
+[![Docker Repository on Quay](https://quay.io/repository/galaxy-genome-annotation/tripal/status "Docker Repository on Quay")](https://quay.io/repository/galaxy-genome-annotation/tripal)
 [![DOI](https://zenodo.org/badge/10899/erasche/docker-tripal.svg)](https://zenodo.org/badge/latestdoi/10899/erasche/docker-tripal)
 
 ![Tripal Logo](http://tripal.info/sites/default/files/TripalLogo_dark.png)
@@ -20,7 +20,7 @@ The following example will run 3 docker containers:
 version: "2"
 services:
   tripal:
-    image: quay.io/erasche/tripal:v3.x
+    image: quay.io/galaxy-genome-annotation/tripal:v3.x
     links:
       - db:postgres
     volumes:
@@ -41,7 +41,7 @@ services:
     ports:
       - "3000:80"
   db:
-    image: erasche/chado
+    image: galaxy-genome-annotation/chado
     environment:
       - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,
@@ -100,7 +100,7 @@ If both ENABLE_DRUPAL_CACHE and ENABLE_MEMCACHE are enabled, Drupal will cache d
 To build a derivative image from this, it should be as simple as writing a Dockerfile which builds off of this image.
 
 ```Dockerfile
-FROM quay.io/erasche/tripal:v3.x
+FROM quay.io/galaxy-genome-annotation/tripal:v3.x
 ```
 
 If you wish to load additional drupal modules, we have exposed the environment variables `TRIPAL_DOWNLOAD_MODULES` and `TRIPAL_ENABLE_MODULES` to allow for this. Note that `TRIPAL_ENABLE_MODULES` already has a large number of non-core modules enabled. You can change this list according to your preferences. Modules that are in `TRIPAL_ENABLE_MODULES` but not in `TRIPAL_DOWNLOAD_MODULES` will be automatically downloaded in their latest stable version.
@@ -164,14 +164,14 @@ To ease the backup of a tripal instance, you can mount several docker volumes by
 version: "2"
 services:
   tripal:
-    image: quay.io/erasche/tripal:v3.x
+    image: quay.io/galaxy-genome-annotation/tripal:v3.x
     [...]
     volumes:
       - ./your/backed/up/dir/tripal_sites:/var/www/html/sites
       - ./your/backed/up/dir/tripal_private:/var/www/private
       [...]
   db:
-    image: erasche/chado
+    image: quay.io/galaxy-genome-annotation/chado
     [...]
     volumes:
       - ./your/backed/up/dir/tripal_db:/var/lib/postgresql/data/

@@ -4,7 +4,7 @@ version: '2'
 services:
 
     web:
-      image: quay.io/erasche/tripal:master
+      image: quay.io/galaxy-genome-annotation/tripal:master
       links:
         - db:postgres
         - elasticsearch:elasticsearch
@@ -21,7 +21,7 @@ services:
         - "3000:80"
 
     db:
-      image: erasche/chado:1.31-jenkins97-pg9.5
+      image: quay..io/galaxy-genome-annotation/chado:1.31-jenkins97-pg9.5
       environment:
         - POSTGRES_PASSWORD=postgres
           # The default chado image would try to install the schema on first run,

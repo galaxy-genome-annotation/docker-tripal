@@ -4,7 +4,7 @@ version: '3'
 services:
 
     web:
-      image: quay.io/galaxy-genome-annotation/tripal:v3.x
+      image: quay.io/galaxy-genome-annotation/tripal
       volumes:
         - /var/www/html/sites
         - /var/www/private

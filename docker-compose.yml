@@ -4,7 +4,7 @@ version: '2'
 services:
 
     web:
-      image: quay.io/galaxy-genome-annotation/tripal:master
+      image: quay.io/galaxy-genome-annotation/tripal:v2.x
       links:
         - db:postgres
         - elasticsearch:elasticsearch

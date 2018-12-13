@@ -98,11 +98,18 @@ drush role-add-perm 'authenticated user' 'access chado_analysis_go content,acces
 if [ ! -z "$THEME_GIT_CLONE" ]; then
     cd /var/www/html/sites/all/themes/
     for repo in $THEME_GIT_CLONE; do
-        theme_name=`basename $repo .git`
+        repo_url=`echo $repo | sed 's/\(.\+\)\[@\w\+\]/\1/'`
+        rev=`echo $repo | sed 's/.\+\[@\(\w\+\)\]/\1/'`
+        theme_name=`basename $repo_url .git`
         if [ -d "$theme_name" ]; then
             echo "Skipping git clone of theme $theme_name from $repo, $theme_name already exists in /var/www/html/sites/all/themes/$theme_name"
         else
-            git clone $repo
+            git clone $repo_url
+            if [ "$repo_url" != "$rev" ]; then
+                cd "$theme_name"
+                git reset --hard $rev
+                cd /var/www/html/sites/all/themes/
+            fi
         fi
     done
     cd /var/www/html/

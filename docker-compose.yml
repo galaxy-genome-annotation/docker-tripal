@@ -6,8 +6,8 @@ services:
     web:
       image: quay.io/galaxy-genome-annotation/tripal
       volumes:
-        - /var/www/html/sites
-        - /var/www/private
+        - ./volumes/tripal/html:/var/www/html/sites
+        - ./volumes/tripal/private:/var/www/private
       environment:
         UPLOAD_LIMIT: 20M
         MEMORY_LIMIT: 128M
@@ -21,7 +21,7 @@ services:
       - elasticsearch
 
     postgres:
-      image: quay.io/galaxy-genome-annotation/chado:1.31-jenkins97-pg9.5
+      image: quay.io/galaxy-genome-annotation/chado:1.31-jenkins21-pg9.5
       environment:
         - POSTGRES_PASSWORD=postgres
           # The default chado image would try to install the schema on first run,
@@ -30,7 +30,7 @@ services:
         - INSTALL_YEAST_DATA=0
         - PGDATA=/var/lib/postgresql/data/
       volumes:
-        - /var/lib/postgresql/data/
+        - ./volumes/tripal/db:/var/lib/postgresql/data/
 
     elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2

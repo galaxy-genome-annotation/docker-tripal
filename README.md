@@ -212,7 +212,9 @@ Username         | Password
 ---------------- | ---------
 admin            | changeme
 
-To customize this, the following environment variables are available:
+_NOTE: Attempting to change the username of the 'admin' account ** once the container is up and running, although seemingly permitted by the Drupal/Tripal administrative dashboard, will result in failure of the container to restart after being turned off (i.e. by docker-compose down, followed by docker-compose up)._
+
+Rather, these credentials may only be customized prior to image creation, by setting the following available docker build environment variables:
 
 ```
 ENV ADMIN_USER admin

@@ -14,7 +14,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.1.1 tripal==3.0 \
+ && pip install chado==2.2.5 tripal==3.2 \
  && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
@@ -42,8 +42,8 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.61
-ENV DRUPAL_TARBALL_MD5=94bc49170d98e0cfe59db487911ecb9d
+ENV DRUPAL_VERSION=7.64
+ENV DRUPAL_TARBALL_MD5=bbb3c4d8c2cba35c48380d34f122f750
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \
@@ -78,8 +78,8 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_OP_CACHE=1 \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
-    TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@a2f3c1e3414011adfced99e98b15365326904792]" \
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@45c1c2fd31b80e4e53b4a5ac9b6c2b6a8f27e4de] https://github.com/tripal/tripal_elasticsearch.git[@eddac33a464e71f52c5c091cd8aaa7ceced50cc7] https://github.com/tripal/tripal_analysis_expression.git[@7a466c5e7cabd44e7ca303b738cd9c057146f052] https://github.com/tripal/tripal_analysis_blast.git[@8e84989a6ba65bbc19cef62f128c18411be93326] https://github.com/tripal/tripal_analysis_interpro.git[@2a6293075f19e68b70622a6dc546681394995499] https://github.com/tripal/tripal_analysis_go.git[@94379540342ea4f895a7530a39eec510dd0d388b]" \
+    TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@62be1479251f790230249d67228ef1765fa98784]" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@551c4265f314f0df8a8de45e2f717a2176fee6aa] https://github.com/tripal/tripal_elasticsearch.git[@3e65ced2744ba952389455da20e145f2cdf9ca01] https://github.com/tripal/tripal_analysis_expression.git[@86ca4394103d661808857bb55e383fdf1e569115] https://github.com/tripal/tripal_analysis_blast.git[@6b622eb62e6d80b64b135bc7d31030de6e1c37f5] https://github.com/tripal/tripal_analysis_interpro.git[@d1a12f3d6fc58c10adc02cf74bc29d3a601d0eb5] https://github.com/tripal/tripal_analysis_go.git[@5064d299fa26da01bde17cfa3b04ca5a8aa47887]" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui" \
     TRIPAL_ENABLE_MODULES="tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression"
 

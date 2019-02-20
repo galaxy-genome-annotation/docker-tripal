@@ -102,6 +102,13 @@ RUN drush pm-download entity ctools views libraries services ds field_group fiel
         fi; \
     done
 
+# Temp patch until PR 829 is merged
+ADD 829.diff /tmp/829.diff
+RUN cd /var/www/html/sites/all/modules/tripal \
+    && patch -p1 < /tmp/829.diff \
+    && cd /var/www/html/ \
+    && rm /tmp/829.diff
+
 RUN cd /var/www/html/sites/all/modules/views \
     && patch -p1 < ../tripal/tripal_chado_views/views-sql-compliant-three-tier-naming-1971160-30.patch \
     && cd /var/www/html/

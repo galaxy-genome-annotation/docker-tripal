@@ -84,7 +84,7 @@ fi
 
 # Need to enable one by one as enabling multiple ones at the same time can be broken
 if [ ! -z "$TRIPAL_ENABLE_MODULES" ]; then
-    for single_module in $TRIPAL_GIT_CLONE_MODULES; do
+    for single_module in $TRIPAL_ENABLE_MODULES; do
         drush pm-enable $single_module
     done
 fi

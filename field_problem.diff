@@ -1,0 +1,15 @@
+--- a/tripal_chado/includes/TripalFields/sbo__relationship/sbo__relationship.inc
++++ b/tripal_chado/includes/TripalFields/sbo__relationship/sbo__relationship.inc
+@@ -215,10 +215,8 @@ class sbo__relationship extends ChadoField {
+     $base_table = $instance['settings']['base_table'];
+ 
+     // First, initialize the schema's.
+-    $this->schema = new ChadoSchema();
+-    $this->schema = $this->schema->getTableSchema($reltable);
+-    $this->base_schema = new ChadoSchema();
+-    $this->base_schema = $this->base_schema->getTableSchema($base_table);
++    $this->schema = chado_get_schema($reltable);
++    $this->base_schema = chado_get_schema($base_table);
+ 
+     // Determine the subject_id/object_id column names.
+     foreach ($this->schema['foreign keys'][$base_table]['columns'] AS $lcolum => $rcolum) {

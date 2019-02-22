@@ -109,6 +109,13 @@ RUN cd /var/www/html/sites/all/modules/tripal \
     && cd /var/www/html/ \
     && rm /tmp/829.diff
 
+# Temp patch until PR xx is merged
+ADD field_problem.diff /tmp/field_problem.diff
+RUN cd /var/www/html/sites/all/modules/tripal \
+    && patch -p1 < /tmp/field_problem.diff \
+    && cd /var/www/html/ \
+    && rm /tmp/field_problem.diff
+
 RUN cd /var/www/html/sites/all/modules/views \
     && patch -p1 < ../tripal/tripal_chado_views/views-sql-compliant-three-tier-naming-1971160-30.patch \
     && cd /var/www/html/

@@ -82,7 +82,12 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
     cd /var/www/html/
 fi
 
-drush pm-enable ${TRIPAL_ENABLE_MODULES}
+# Need to enable one by one as enabling multiple ones at the same time can be broken
+if [ ! -z "$TRIPAL_ENABLE_MODULES" ]; then
+    for single_module in $TRIPAL_GIT_CLONE_MODULES; do
+        drush pm-enable $single_module
+    done
+fi
 
 # Launch any job automatically created while installing modules
 drush trp-run-jobs --username=${ADMIN_USER}

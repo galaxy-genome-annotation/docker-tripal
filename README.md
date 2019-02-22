@@ -122,6 +122,12 @@ If you want to get a specific git revision, you can use this syntax:
 ENV TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@45c1c2fd31b80e4e53b4a5ac9b6c2b6a8f27e4de]"
 ```
 
+If you provide a specific revision but the module is already present, by default the image will switch to the given revision. If you don't want that (to preserve local modifications), you can set this variable:
+
+```
+ENV TRIPAL_GIT_UPDATE=0
+```
+
 ## Tripal jobs
 
 When loading data into Tripal, jobs or indexing tasks will be created inside the container.

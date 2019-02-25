@@ -71,7 +71,7 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
         rev=`echo $repo | sed 's/.\+\[@\(\w\+\)\]/\1/'`
         module_name=`basename $repo_url .git`
         if [ -d "$module_name" ]; then
-            if [[ $TRIPAL_GIT_UPDATE == "1" ]]
+            if [[ $TRIPAL_GIT_UPDATE == "1" && "$repo_url" != "$rev" ]]
             then
                 echo "Updating module $module_name from $repo_url, to revision $rev"
                 cd "$module_name"
@@ -117,7 +117,7 @@ if [ ! -z "$THEME_GIT_CLONE" ]; then
         rev=`echo $repo | sed 's/.\+\[@\(\w\+\)\]/\1/'`
         theme_name=`basename $repo_url .git`
         if [ -d "$theme_name" ]; then
-            if [[ $TRIPAL_GIT_UPDATE == "1" ]]
+            if [[ $TRIPAL_GIT_UPDATE == "1" && "$repo_url" != "$rev" ]]
             then
                 echo "Updating theme $theme_name from $repo, to revision $rev"
                 cd "$theme_name"

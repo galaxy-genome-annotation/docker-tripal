@@ -74,8 +74,8 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
     TRIPAL_GIT_UPDATE=1 \
-    TRIPAL_BASE_CODE_GIT="https://github.com/abretaud/tripal.git[@c39e4acc9ce9fc4fcc77f216254c9966cea48a49]" \
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@84b44522ca7b8f90b1b0a0227ccfccc2faede6a2] https://github.com/tripal/tripal_elasticsearch.git[@3e65ced2744ba952389455da20e145f2cdf9ca01] https://github.com/tripal/tripal_analysis_expression.git[@86ca4394103d661808857bb55e383fdf1e569115] https://github.com/abretaud/tripal_analysis_blast.git[@f267a0fdb39dee1812d40d86ea23ce953ba4d29a] https://github.com/tripal/tripal_analysis_interpro.git[@d1a12f3d6fc58c10adc02cf74bc29d3a601d0eb5] https://github.com/tripal/tripal_analysis_go.git[@5064d299fa26da01bde17cfa3b04ca5a8aa47887]" \
+    TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@62be1479251f790230249d67228ef1765fa98784]" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@84b44522ca7b8f90b1b0a0227ccfccc2faede6a2] https://github.com/tripal/tripal_elasticsearch.git[@3e65ced2744ba952389455da20e145f2cdf9ca01] https://github.com/tripal/tripal_analysis_expression.git[@86ca4394103d661808857bb55e383fdf1e569115] https://github.com/abretaud/tripal_analysis_blast.git[@b642b03c9ffab5ca7f749bf7b99111663c64c963] https://github.com/tripal/tripal_analysis_interpro.git[@d1a12f3d6fc58c10adc02cf74bc29d3a601d0eb5] https://github.com/tripal/tripal_analysis_go.git[@5064d299fa26da01bde17cfa3b04ca5a8aa47887]" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui" \
     TRIPAL_ENABLE_MODULES="tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression"
 
@@ -114,6 +114,12 @@ RUN cd /var/www/html/sites/all/modules/tripal \
 ADD field_problem.diff /opt/field_problem.diff
 RUN cd /var/www/html/sites/all/modules/tripal \
     && patch -p1 < /opt/field_problem.diff \
+    && cd /var/www/html/
+
+# Temp patch until PR 855 is merged
+ADD 855.diff /opt/855.diff
+RUN cd /var/www/html/sites/all/modules/tripal \
+    && patch -p1 < /opt/855.diff \
     && cd /var/www/html/
 
 RUN cd /var/www/html/sites/all/modules/views \

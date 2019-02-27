@@ -75,7 +75,7 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_CRON_JOBS=0 \
     TRIPAL_GIT_UPDATE=1 \
     TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@62be1479251f790230249d67228ef1765fa98784]" \
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@84b44522ca7b8f90b1b0a0227ccfccc2faede6a2] https://github.com/tripal/tripal_elasticsearch.git[@3e65ced2744ba952389455da20e145f2cdf9ca01] https://github.com/tripal/tripal_analysis_expression.git[@86ca4394103d661808857bb55e383fdf1e569115] https://github.com/abretaud/tripal_analysis_blast.git[@b642b03c9ffab5ca7f749bf7b99111663c64c963] https://github.com/tripal/tripal_analysis_interpro.git[@d1a12f3d6fc58c10adc02cf74bc29d3a601d0eb5] https://github.com/tripal/tripal_analysis_go.git[@5064d299fa26da01bde17cfa3b04ca5a8aa47887]" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@84b44522ca7b8f90b1b0a0227ccfccc2faede6a2] https://github.com/tripal/tripal_elasticsearch.git[@3e65ced2744ba952389455da20e145f2cdf9ca01] https://github.com/tripal/tripal_analysis_expression.git[@86ca4394103d661808857bb55e383fdf1e569115] https://github.com/abretaud/tripal_analysis_blast.git[@b642b03c9ffab5ca7f749bf7b99111663c64c963] https://github.com/abretaud/tripal_analysis_interpro.git[@5058fd32a4423870e25bb10985cc4f50b957824e] https://github.com/tripal/tripal_analysis_go.git[@5064d299fa26da01bde17cfa3b04ca5a8aa47887]" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui" \
     TRIPAL_ENABLE_MODULES="tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch tripal_analysis_expression"
 

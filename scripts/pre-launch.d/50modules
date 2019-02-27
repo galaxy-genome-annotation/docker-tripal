@@ -16,6 +16,7 @@ if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
     git clone $repo_url tripal
     cd tripal
     if [ "$repo_url" != "$rev" ]; then
+        git fetch
         git reset --hard $rev
     fi
     patch -p1 < /opt/829.diff
@@ -75,6 +76,7 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
             then
                 echo "Updating module $module_name from $repo_url, to revision $rev"
                 cd "$module_name"
+                git fetch
                 git reset --hard $rev
                 cd /var/www/html/sites/all/modules/
             else
@@ -84,6 +86,7 @@ if [ ! -z "$TRIPAL_GIT_CLONE_MODULES" ]; then
             git clone $repo_url
             if [ "$repo_url" != "$rev" ]; then
                 cd "$module_name"
+                git fetch
                 git reset --hard $rev
                 cd /var/www/html/sites/all/modules/
             fi
@@ -121,6 +124,7 @@ if [ ! -z "$THEME_GIT_CLONE" ]; then
             then
                 echo "Updating theme $theme_name from $repo, to revision $rev"
                 cd "$theme_name"
+                git fetch
                 git reset --hard $rev
                 cd /var/www/html/sites/all/themes/
             else
@@ -130,6 +134,7 @@ if [ ! -z "$THEME_GIT_CLONE" ]; then
             git clone $repo_url
             if [ "$repo_url" != "$rev" ]; then
                 cd "$theme_name"
+                git fetch
                 git reset --hard $rev
                 cd /var/www/html/sites/all/themes/
             fi

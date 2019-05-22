@@ -35,8 +35,8 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.64
-ENV DRUPAL_TARBALL_MD5=bbb3c4d8c2cba35c48380d34f122f750
+ENV DRUPAL_VERSION=7.67
+ENV DRUPAL_TARBALL_MD5=78b1814e55fdaf40e753fd523d059f8d
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \
@@ -53,7 +53,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
  && drush cc drush \
  && mkdir /etc/drush && echo "<?php\n\$options['yes'] = TRUE;\n\$options['v'] = TRUE;\n" > /etc/drush/drushrc.php
 
-RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins110/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz \
+RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins21/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz \
     && wget --no-check-certificate https://drupal.org/files/drupal.pgsql-bytea.27.patch -O /drupal.pgsql-bytea.27.patch
 
 WORKDIR html

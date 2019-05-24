@@ -19,9 +19,7 @@ if [[ ! $(ls -A /var/www/html/sites/all/modules/) ]]; then
         git fetch
         git reset --hard $rev
     fi
-    patch -p1 < /opt/829.diff
     patch -p1 < /opt/field_problem.diff
-    patch -p1 < /opt/855.diff
     cd /var/www/html/
 
     # Fetch the other modules from drupal.org

@@ -104,22 +104,10 @@ RUN drush pm-download entity ctools views libraries services ds field_group fiel
         fi; \
     done
 
-# Temp patch until PR 829 is merged
-ADD 829.diff /opt/829.diff
-RUN cd /var/www/html/sites/all/modules/tripal \
-    && patch -p1 < /opt/829.diff \
-    && cd /var/www/html/
-
 # Temp patch until PR xx is merged
 ADD field_problem.diff /opt/field_problem.diff
 RUN cd /var/www/html/sites/all/modules/tripal \
     && patch -p1 < /opt/field_problem.diff \
-    && cd /var/www/html/
-
-# Temp patch until PR 855 is merged
-ADD 855.diff /opt/855.diff
-RUN cd /var/www/html/sites/all/modules/tripal \
-    && patch -p1 < /opt/855.diff \
     && cd /var/www/html/
 
 RUN cd /var/www/html/sites/all/modules/views \

@@ -72,7 +72,7 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
     TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@00ed8867845aae4fe8fc14b3d426b95cd7b790b4]" \
-    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@cb1d52ffed0b8a5c1ac189b41c729c8ad93b1c21] https://github.com/tripal/tripal_elasticsearch.git[@bac9c5d35f4c38e906fe48f55064906af8ea029a] https://github.com/tripal/trpdownload_api.git" \
+    TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@c6f9021ea5d4c6d7c67c5bd363a7dd9359228bbc] https://github.com/tripal/tripal_elasticsearch.git[@dc7f276046e394a80a7dfc9404cf1a149006eb2a] https://github.com/tripal/trpdownload_api.git" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui tripal_analysis_interpro-7.x-2.x-dev tripal_analysis_blast-7.x-2.x-dev tripal_analysis_go-7.x-2.x-dev" \
     TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast tripal_analysis_interpro tripal_analysis_go tripal_rest_api tripal_elasticsearch trpdownload_api"
 

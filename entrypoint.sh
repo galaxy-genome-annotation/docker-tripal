@@ -92,7 +92,7 @@ then
 	run_scripts setup
 	echo "=> Done installing site!"
 	if [ $EXTRA_SETUP_SCRIPT ]; then
-		echo "=> WARNING: The usage of EXTRA_SETUP_SCRIPT is deprectated. Put your script into /scripts/post-setup.d/"
+		echo "=> WARNING: The usage of EXTRA_SETUP_SCRIPT is deprecated. Put your script into /scripts/post-setup.d/"
 		. $EXTRA_SETUP_SCRIPT
 		echo "=> Successfully ran extra setup script ${EXTRA_SETUP_SCRIPT}."
 	fi

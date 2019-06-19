@@ -1,13 +1,10 @@
 # This is a sample configuration to run a Tripal instance with Docker-Compose.
 
-version: '2'
+version: '3'
 services:
 
     web:
       image: quay.io/galaxy-genome-annotation/tripal:v2.x
-      links:
-        - db:postgres
-        - elasticsearch:elasticsearch
       volumes:
         - ./volumes/tripal/html:/var/www/html/sites
         - ./volumes/tripal/private:/var/www/private
@@ -19,8 +16,11 @@ services:
         DB_NAME: 'postgres'
       ports:
         - "3000:80"
+      depends_on:
+      - postgres
+      - elasticsearch
 
-    db:
+    postgres:
       image: quay.io/galaxy-genome-annotation/chado:1.31-jenkins21-pg9.5
       environment:
         - POSTGRES_PASSWORD=postgres

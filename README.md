@@ -95,6 +95,18 @@ ENABLE_MEMCACHE: 0 # To disable caching using memcache (requires ENABLE_DRUPAL_C
 If ENABLE_DRUPAL_CACHE is enabled but ENABLE_MEMCACHE is not, Drupal will cache data into database.
 If both ENABLE_DRUPAL_CACHE and ENABLE_MEMCACHE are enabled, Drupal will cache data using memcache.
 
+## Database connection
+
+Some environment variables can be defined to connect to the postgresql database:
+
+```
+DB_HOST='postgres'
+DB_PORT='5432'
+DB_NAME='postgres'
+DB_USER='postgres'
+DB_PASS='postgres'
+```
+
 ## Customizing the Image
 
 To build a derivative image from this, it should be as simple as writing a Dockerfile which builds off of this image.

@@ -36,8 +36,8 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.61
-ENV DRUPAL_TARBALL_MD5=94bc49170d98e0cfe59db487911ecb9d
+ENV DRUPAL_VERSION=7.69
+ENV DRUPAL_TARBALL_MD5=292290a2fb1f5fc919291dc3949cdf7c
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \
@@ -72,6 +72,7 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_OP_CACHE=1 \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
+    ELASTICSEARCH_HOST="elasticsearch" \
     TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@707a529ca73859026fdaefbf4561cfbc8c2fbb8b]" \
     TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@45c1c2fd31b80e4e53b4a5ac9b6c2b6a8f27e4de] https://github.com/tripal/tripal_elasticsearch.git[@eddac33a464e71f52c5c091cd8aaa7ceced50cc7] https://github.com/tripal/tripal_analysis_expression.git[@7a466c5e7cabd44e7ca303b738cd9c057146f052] https://github.com/tripal/tripal_analysis_blast.git[@8e84989a6ba65bbc19cef62f128c18411be93326] https://github.com/tripal/tripal_analysis_interpro.git[@2a6293075f19e68b70622a6dc546681394995499] https://github.com/tripal/tripal_analysis_go.git[@94379540342ea4f895a7530a39eec510dd0d388b]" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui" \

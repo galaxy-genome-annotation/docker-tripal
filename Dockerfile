@@ -35,8 +35,8 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.67
-ENV DRUPAL_TARBALL_MD5=78b1814e55fdaf40e753fd523d059f8d
+ENV DRUPAL_VERSION=7.69
+ENV DRUPAL_TARBALL_MD5=292290a2fb1f5fc919291dc3949cdf7c
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \
@@ -71,6 +71,7 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_OP_CACHE=1 \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
+    ELASTICSEARCH_HOST="elasticsearch" \
     TRIPAL_GIT_UPDATE=1 \
     TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@00ed8867845aae4fe8fc14b3d426b95cd7b790b4]" \
     TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@c6f9021ea5d4c6d7c67c5bd363a7dd9359228bbc] https://github.com/tripal/tripal_elasticsearch.git[@dc7f276046e394a80a7dfc9404cf1a149006eb2a] https://github.com/tripal/trpdownload_api.git" \

@@ -1,5 +1,4 @@
 FROM php:7.1-apache
-MAINTAINER Eric Rasche <esr@tamu.edu>
 
 # Install packages and PHP-extensions
 RUN apt-get -q update && \
@@ -14,7 +13,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.1.1 tripal==3.0 \
+ && pip install chado==2.2.5 tripal==3.2 \
  && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*
@@ -54,7 +53,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
  && drush cc drush \
  && mkdir /etc/drush && echo "<?php\n\$options['yes'] = TRUE;\n\$options['v'] = TRUE;\n" > /etc/drush/drushrc.php
 
-RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins110/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz \
+RUN wget https://github.com/erasche/chado-schema-builder/releases/download/1.31-jenkins21/chado-1.31-tripal.sql.gz -O /chado-master-tripal.sql.gz \
     && wget --no-check-certificate https://drupal.org/files/drupal.pgsql-bytea.27.patch -O /drupal.pgsql-bytea.27.patch
 
 WORKDIR html
@@ -73,6 +72,7 @@ ENV BASE_URL_PATH="/tripal" \
     ENABLE_MEMCACHE=1 \
     ENABLE_CRON_JOBS=0 \
     ELASTICSEARCH_HOST="elasticsearch" \
+    TRIPAL_GIT_UPDATE=1 \
     TRIPAL_BASE_CODE_GIT="https://github.com/tripal/tripal.git[@707a529ca73859026fdaefbf4561cfbc8c2fbb8b]" \
     TRIPAL_GIT_CLONE_MODULES="https://github.com/abretaud/tripal_rest_api.git[@45c1c2fd31b80e4e53b4a5ac9b6c2b6a8f27e4de] https://github.com/tripal/tripal_elasticsearch.git[@eddac33a464e71f52c5c091cd8aaa7ceced50cc7] https://github.com/tripal/tripal_analysis_expression.git[@7a466c5e7cabd44e7ca303b738cd9c057146f052] https://github.com/tripal/tripal_analysis_blast.git[@8e84989a6ba65bbc19cef62f128c18411be93326] https://github.com/tripal/tripal_analysis_interpro.git[@2a6293075f19e68b70622a6dc546681394995499] https://github.com/tripal/tripal_analysis_go.git[@94379540342ea4f895a7530a39eec510dd0d388b]" \
     TRIPAL_DOWNLOAD_MODULES="queue_ui" \

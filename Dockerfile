@@ -2,6 +2,7 @@ FROM php:7.1-apache
 
 # Install packages and PHP-extensions
 RUN apt-get -q update && \
+    apt-get -y upgrade && \
     mkdir -p /usr/share/man/man1 /usr/share/man/man7 && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
     file libfreetype6 libjpeg62 libpng16-16 libpq-dev libx11-6 libxpm4 \

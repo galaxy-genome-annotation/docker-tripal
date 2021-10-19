@@ -2,6 +2,7 @@ FROM php:7.1-apache
 
 # Install packages and PHP-extensions
 RUN apt-get -q update && \
+    apt-get -y upgrade && \
     mkdir -p /usr/share/man/man1 /usr/share/man/man7 && \
     DEBIAN_FRONTEND=noninteractive apt-get -yq --no-install-recommends install \
     file libfreetype6 libjpeg62 libpng16-16 libpq-dev libx11-6 libxpm4 \
@@ -13,7 +14,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.2.5 tripal==3.2 \
+ && pip install chado==2.2.5 tripal==3.2 biopython=1.76 \
  && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*

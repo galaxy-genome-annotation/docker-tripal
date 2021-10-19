@@ -21,7 +21,7 @@ $conf['mail_system'] = ['default-system' => 'TestingMailSystem'];
 /**
  * Default elasticsearch host
  */
-$conf['elasticsearch_host'] = 'elasticsearch';
+$conf['elasticsearch_host'] = getenv('ELASTICSEARCH_HOST');
 
 /**
  * Caching

@@ -14,7 +14,7 @@ RUN apt-get -q update && \
         --with-jpeg-dir=/usr/lib/x86_64-linux-gnu --with-png-dir=/usr/lib/x86_64-linux-gnu \
         --with-xpm-dir=/usr/lib/x86_64-linux-gnu --with-freetype-dir=/usr/lib/x86_64-linux-gnu \
  && docker-php-ext-install gd mbstring pdo_pgsql zip \
- && pip install chado==2.2.5 tripal==3.2 \
+ && pip install chado==2.2.5 tripal==3.2 biopython==1.76 \
  && pecl install memcached \
  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false $BUILD_DEPS \
  && rm -rf /var/lib/apt/lists/*

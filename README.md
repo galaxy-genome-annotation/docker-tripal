@@ -41,7 +41,7 @@ services:
     ports:
       - "3000:80"
   db:
-    image: galaxy-genome-annotation/chado
+    image: quay.io/galaxy-genome-annotation/chado
     environment:
       - POSTGRES_PASSWORD=postgres
         # The default chado image would try to install the schema on first run,

@@ -35,7 +35,7 @@ services:
       BASE_URL: "http://foo.bar.edu:3000"
       BASE_URL_PROTO: "http://"
       DB_NAME: 'tripal'
-      TRIPAL_DOWNLOAD_MODULES: "tripal_analysis_blast-7.x-2.x-dev"
+      TRIPAL_DOWNLOAD_MODULES: "tripal_analysis_blast-7.x-3.1"
       TRIPAL_GIT_CLONE_MODULES: "https://github.com/tripal/tripal_analysis_expression.git"
       TRIPAL_ENABLE_MODULES: "tripal_analysis_blast tripal_analysis_expression tripal_analysis_interpro"
     ports:
@@ -118,7 +118,7 @@ FROM quay.io/galaxy-genome-annotation/tripal
 If you wish to load additional drupal modules, we have exposed the environment variables `TRIPAL_DOWNLOAD_MODULES` and `TRIPAL_ENABLE_MODULES` to allow for this. Note that `TRIPAL_ENABLE_MODULES` already has a large number of non-core modules enabled. You can change this list according to your preferences. Modules that are in `TRIPAL_ENABLE_MODULES` but not in `TRIPAL_DOWNLOAD_MODULES` will be automatically downloaded in their latest stable version.
 
 ```
-ENV TRIPAL_DOWNLOAD_MODULES tripal_analysis_blast-7.x-2.x-dev
+ENV TRIPAL_DOWNLOAD_MODULES tripal_analysis_blast-7.x-3.1
 ENV TRIPAL_ENABLE_MODULES="tripal_genetic tripal_natural_diversity tripal_phenotype tripal_project tripal_pub tripal_stock tripal_analysis_blast"
 ```
 

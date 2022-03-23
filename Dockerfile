@@ -36,8 +36,8 @@ RUN a2enmod rewrite && a2enmod proxy && a2enmod proxy_http
 RUN cd /tmp && git clone https://github.com/php/pecl-php-uploadprogress.git && cd pecl-php-uploadprogress && phpize && ./configure && make && make install && cd /
 
 # Download Drupal from ftp.drupal.org
-ENV DRUPAL_VERSION=7.69
-ENV DRUPAL_TARBALL_MD5=292290a2fb1f5fc919291dc3949cdf7c
+ENV DRUPAL_VERSION=7.89
+ENV DRUPAL_TARBALL_MD5=924e707e3b1e8269fe623cf2f22ee710
 WORKDIR /var/www
 RUN rm -R html \
  && curl -OsS https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz \

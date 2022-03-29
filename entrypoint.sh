@@ -102,9 +102,18 @@ then
     exit 1
 elif [[ $DRUSH_OK != "0" && $DB_LOADED == "t" ]]
 then
-	echo "=> Error: 'drush pm-list' fails but the database is not empty. Something is wrong in the install. Exiting."
-    export ENABLE_MEMCACHE=0 && drush pm-list
-    exit $?
+		echo "=> Error: 'drush pm-list' fails but the database is not empty. Trying to upgrade db, just in case."
+    export ENABLE_MEMCACHE=0 && drush updb -y
+		echo "drush updb finished, retrying pm-list"
+
+		DRUSH_OK=`export ENABLE_MEMCACHE=0 && drush pm-list > /dev/null 2>&1; echo "$?"`
+
+		if [[ $DRUSH_OK != "0" ]]
+		then
+				echo "=> Error: 'drush pm-list' fails again but the database is not empty. Something is wrong in the install. Exiting."
+		    export ENABLE_MEMCACHE=0 && drush pm-list
+		    exit $?
+		fi
 else
 	echo "=> Skipped setup - database ${DB_NAME} already ready."
 fi
